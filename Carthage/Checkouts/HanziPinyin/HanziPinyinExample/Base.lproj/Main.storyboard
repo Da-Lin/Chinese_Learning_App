@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jbx-dN-3o3">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Hanzi Pinyin Example View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="HanziPinyinExampleViewController" customModule="HanziPinyinExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="UIControl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="WKf-9u-iTh">
+                                <rect key="frame" x="15" y="94" width="240" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="5Yz-T5-Ry5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhN-bI-UbZ" customClass="ActivityButton" customModule="HanziPinyinExample" customModuleProvider="target">
+                                <rect key="frame" x="265" y="94" width="95" height="40"/>
+                                <color key="backgroundColor" red="0.011764705882352941" green="0.66274509803921566" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="95" id="VsJ-FA-wZb"/>
+                                    <constraint firstAttribute="height" constant="40" id="f8W-ZI-D0U"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Get Pinyin">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="pinyinButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gu8-Fx-uRT"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8L9-72-qQ9">
+                                <rect key="frame" x="15" y="149" width="345" height="418"/>
+                                <color key="backgroundColor" red="0.94771015644073486" green="0.94771015644073486" blue="0.94771015644073486" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" red="0.2196078431372549" green="0.2196078431372549" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="7"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="WKf-9u-iTh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="15" id="LAk-3A-SCr"/>
+                            <constraint firstAttribute="trailing" secondItem="yhN-bI-UbZ" secondAttribute="trailing" constant="15" id="Rtt-9L-0C7"/>
+                            <constraint firstItem="yhN-bI-UbZ" firstAttribute="centerY" secondItem="WKf-9u-iTh" secondAttribute="centerY" id="ZBG-l1-u1A"/>
+                            <constraint firstAttribute="trailing" secondItem="8L9-72-qQ9" secondAttribute="trailing" constant="15" id="cWH-ik-DnD"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="8L9-72-qQ9" secondAttribute="bottom" constant="100" id="cnz-PB-OiW"/>
+                            <constraint firstItem="yhN-bI-UbZ" firstAttribute="leading" secondItem="WKf-9u-iTh" secondAttribute="trailing" constant="10" id="oyN-zV-XAl"/>
+                            <constraint firstItem="WKf-9u-iTh" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="30" id="r9o-By-cpi"/>
+                            <constraint firstItem="8L9-72-qQ9" firstAttribute="top" secondItem="WKf-9u-iTh" secondAttribute="bottom" constant="15" id="s5p-qi-WZS"/>
+                            <constraint firstItem="8L9-72-qQ9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="15" id="vBm-gx-4VR"/>
+                        </constraints>
+                        <connections>
+                            <action selector="backgroundTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="afz-gw-jDu"/>
+                        </connections>
+                    </view>
+                    <navigationItem key="navigationItem" id="eZ4-OO-lbf"/>
+                    <connections>
+                        <outlet property="inputTextField" destination="WKf-9u-iTh" id="ash-kG-djw"/>
+                        <outlet property="outputTextView" destination="8L9-72-qQ9" id="Jd7-A5-cBa"/>
+                        <outlet property="pinyinButton" destination="yhN-bI-UbZ" id="Bwp-Ob-USd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1049" y="-379"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="9JR-1c-rnr">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jbx-dN-3o3" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="NVc-vw-o7K">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="5Eu-Vv-MBS"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ajv-xk-GDP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="244" y="-379"/>
+        </scene>
+    </scenes>
+</document>

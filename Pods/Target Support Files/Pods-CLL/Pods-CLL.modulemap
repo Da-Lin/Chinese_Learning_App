@@ -1,0 +1,6 @@
+framework module Pods_CLL {
+  umbrella header "Pods-CLL-umbrella.h"
+
+  export *
+  module * { export * }
+}

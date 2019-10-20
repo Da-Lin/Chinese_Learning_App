@@ -1,0 +1,6 @@
+framework module HanziPinyin {
+  umbrella header "HanziPinyin-umbrella.h"
+
+  export *
+  module * { export * }
+}
