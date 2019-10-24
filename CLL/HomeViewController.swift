@@ -5,6 +5,7 @@ class HomeViewController: UIViewController {
 
     @IBOutlet weak var lessonsButton: FUIButton!
     @IBOutlet weak var authoringButton: FUIButton!
+    @IBOutlet weak var loginButton: FUIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +32,7 @@ class HomeViewController: UIViewController {
     }
     
     private func setupButtons() {
-        [lessonsButton, authoringButton].forEach { button in
+        [lessonsButton, authoringButton, loginButton].forEach { button in
             guard let button = button else { return }
             button.buttonColor = .white
             button.shadowColor = .darkGray
