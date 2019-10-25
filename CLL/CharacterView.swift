@@ -124,6 +124,7 @@ final class CharacterView: UICollectionViewCell {
     private let toneBubble = ToneBubbleView()
     private let characterLabel = UILabel()
     private var toneBubbleWidthConstraint: NSLayoutConstraint!
+    private let pinyin = UILabel()
     
     var metadata: IndividualCharacterViewMetadata? {
         didSet {
@@ -162,20 +163,35 @@ final class CharacterView: UICollectionViewCell {
         
         // Tone bubble Layout
         toneBubbleWidthConstraint = toneBubble.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.45)
-
         contentView.addSubview(toneBubble)
         toneBubble.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             toneBubble.topAnchor.constraint(equalTo: contentView.topAnchor),
             toneBubble.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            toneBubble.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.45),
+            toneBubble.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.35),
             toneBubbleWidthConstraint
             ])
+        
+        // Pinyin layout
+        contentView.addSubview(pinyin)
+        pinyin.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+           pinyin.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+           pinyin.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+           pinyin.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+           pinyin.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
+           ])
+               
+        pinyin.text = "中".transformToPinYin()
+        pinyin.font = .regularFont(ofSize: 20)
+
+        pinyin.textAlignment = .center
     
         // Character label layout
         contentView.addSubview(characterLabel)
         characterLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
+            characterLabel.topAnchor.constraint(equalTo: pinyin.bottomAnchor, constant: 1),
             characterLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             characterLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             characterLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -183,15 +199,16 @@ final class CharacterView: UICollectionViewCell {
             ])
         
         characterLabel.text = "--"
-        characterLabel.font = .regularFont(ofSize: 30)
+        characterLabel.font = .regularFont(ofSize: 20)
 
         characterLabel.textAlignment = .center
     }
     
     private func refreshLabels() {
         characterLabel.text = metadata?.character
+        pinyin.text = metadata?.character.transformToPinYin()
         toneBubble.setTone(tone: ToneType(rawValue: metadata!.toneNumber), metadata!.isStressed)
-        
+
         if metadata!.toneNumber == 0 {
             toneBubble.isHidden = true
         } else {
