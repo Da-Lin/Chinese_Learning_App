@@ -1,5 +1,6 @@
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
@@ -47,13 +48,40 @@ class LoginViewController: UIViewController {
                 self.errorLabel.alpha = 1
             }
             else {
-                
-                let studentHomeViewController = self.storyboard?.instantiateViewController(identifier: Constants.Storyboard.studentHomeViewController) as? StudentHomeViewController
-                
-                self.view.window?.rootViewController = studentHomeViewController
-                self.view.window?.makeKeyAndVisible()
+                self.displaySpinner()
+                let db = Firestore.firestore()
+                let uid = result!.user.uid
+                db.collection("users").document(uid).getDocument { (document, err) in
+                    self.dismiss(animated: false, completion: nil)
+                    if let document = document, document.exists {
+                        let data = document.data()!
+                        let role = data["role"] as! Int
+                        if role == Constants.UserRole.teacher {
+                            let teacherHomeViewController = self.storyboard!.instantiateViewController(identifier: Constants.Storyboard.teacherHomeViewController) as! TeacherHomeViewController
+                            self.navigationController?.pushViewController(teacherHomeViewController, animated: true)
+                        }else{
+                            let studentHomeViewController = self.storyboard!.instantiateViewController(identifier: Constants.Storyboard.studentHomeViewController) as! StudentHomeViewController
+                            self.navigationController?.pushViewController(studentHomeViewController, animated: true)
+                        }
+                        
+                    } else {
+                        print("Document does not exist")
+                    }
+                }
             }
         }
+    }
+    
+    func displaySpinner(){
+        let alert = UIAlertController(title: nil, message: "Logging in...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: false, completion: nil)
     }
     
 }

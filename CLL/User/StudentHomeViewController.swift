@@ -1,7 +1,9 @@
 import UIKit
 import FirebaseAuth
+import FlatUIKit
 
 class StudentHomeViewController: UIViewController {
+    @IBOutlet weak var lessonsButton: FUIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,13 +17,27 @@ class StudentHomeViewController: UIViewController {
         super.viewWillAppear(true)
     }
     
+    @IBAction func lessonButtonTapped(_ sender: Any) {
+        let lessonSelectionVC = storyboard?.instantiateViewController(withIdentifier: "LessonSelectionViewController") as! LessonSelectionViewController
+        navigationController?.pushViewController(lessonSelectionVC, animated: true)
+    }
+    
+    private func setupButtons() {
+        [lessonsButton].forEach { button in
+            guard let button = button else { return }
+            button.buttonColor = .white
+            button.shadowColor = .darkGray
+            button.shadowHeight = 3.0
+            button.cornerRadius = 6.0
+            button.titleLabel?.font = .regularFont(ofSize: 22)
+            button.setTitleColor(.black, for: .normal)
+        }
+    }
+    
     @objc func handleSignOutButtonTapped(){
         do{
             try Auth.auth().signOut()
-            let homeViewController = self.storyboard?.instantiateViewController(identifier: Constants.Storyboard.homeViewController) as? HomeViewController
-            
-            self.view.window?.rootViewController = homeViewController
-            self.view.window?.makeKeyAndVisible()
+            navigationController?.popToRootViewController(animated: true)
         } catch let err {
             print(err)
         }

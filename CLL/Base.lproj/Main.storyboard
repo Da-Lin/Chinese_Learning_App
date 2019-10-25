@@ -195,25 +195,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nz1-7K-nc3">
-                                <rect key="frame" x="166" y="282" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wMT-KR-TES">
-                                <rect key="frame" x="162" y="348" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3UR-2z-m3N">
+                                <rect key="frame" x="77.5" y="40" width="220" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="1dh-az-hCD"/>
+                                    <constraint firstAttribute="width" constant="220" id="8vl-12-nKl"/>
+                                </constraints>
+                                <state key="normal" title="Lessons"/>
                                 <connections>
-                                    <segue destination="fgl-do-atg" kind="show" id="5XE-Z2-nUR"/>
+                                    <action selector="lessonButtonTapped:" destination="TYy-ee-tsN" eventType="touchUpInside" id="Ba4-Zs-aAS"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="3UR-2z-m3N" firstAttribute="top" secondItem="0RO-E9-loL" secondAttribute="top" constant="40" id="CrJ-4e-jRF"/>
+                            <constraint firstItem="3UR-2z-m3N" firstAttribute="centerX" secondItem="0RO-E9-loL" secondAttribute="centerX" id="UWe-YB-dSX"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="0RO-E9-loL"/>
                     </view>
+                    <connections>
+                        <outlet property="lessonsButton" destination="3UR-2z-m3N" id="3le-eI-bBG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y4L-Gi-1jC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -224,7 +227,7 @@
             <objects>
                 <viewController id="fgl-do-atg" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2HF-Mx-3Gg">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="qdT-Sz-F9N"/>
@@ -233,7 +236,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HFc-Tb-wxw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4823" y="409"/>
+            <point key="canvasLocation" x="4860" y="-58"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="keY-LH-c6R">

@@ -123,11 +123,13 @@ class SignUpViewController: UIViewController {
     
     func transitionToHome() {
 
-        let studentHomeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.studentHomeViewController) as? StudentHomeViewController
-
-        view.window?.rootViewController = studentHomeViewController
-        view.window?.makeKeyAndVisible()
-
+        if role == Constants.UserRole.student{
+            let studentHomeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.studentHomeViewController) as! StudentHomeViewController
+            navigationController!.pushViewController(studentHomeViewController, animated: true)
+        }else{
+            let teacherHomeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.teacherHomeViewController) as! TeacherHomeViewController
+            navigationController!.pushViewController(teacherHomeViewController, animated: true)
+        }
     }
     
     @IBAction func roleSegChanged(_ sender: UISegmentedControl) {

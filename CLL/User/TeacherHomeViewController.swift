@@ -15,10 +15,7 @@ class TeacherHomeViewController: UIViewController {
     @objc func handleSignOutButtonTapped(){
         do{
             try Auth.auth().signOut()
-            let homeViewController = self.storyboard?.instantiateViewController(identifier: Constants.Storyboard.homeViewController) as? HomeViewController
-            
-            self.view.window?.rootViewController = homeViewController
-            self.view.window?.makeKeyAndVisible()
+            navigationController?.popToRootViewController(animated: true)
         } catch let err {
             print(err)
         }

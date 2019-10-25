@@ -32,7 +32,7 @@ class HomeViewController: UIViewController {
         loadingIndicator.startAnimating();
 
         alert.view.addSubview(loadingIndicator)
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: false, completion: nil)
     }
     
     func checkLoggedIn(){
