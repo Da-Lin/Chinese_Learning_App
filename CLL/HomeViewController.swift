@@ -1,5 +1,7 @@
 import UIKit
 import FlatUIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class HomeViewController: UIViewController {
 
@@ -9,6 +11,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkLoggedIn()
 
         navigationController?.navigationBar.titleTextAttributes =
             [NSAttributedString.Key.foregroundColor: UIColor.black,
@@ -18,6 +21,45 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .primaryRed
         customizeBackButton()
         setupButtons()
+    }
+    
+    func displaySpinner(){
+        let alert = UIAlertController(title: nil, message: "Logging in...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func checkLoggedIn(){
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        if Auth.auth().currentUser != nil{
+            displaySpinner()
+            let uid = Auth.auth().currentUser!.uid
+            let db = Firestore.firestore()
+            db.collection("users").document(uid).getDocument { (document, err) in
+                if let document = document, document.exists {
+                    self.dismiss(animated: false, completion: nil)
+                    let data = document.data()!
+                    let role = data["role"] as! Int
+                    if role == Constants.UserRole.teacher {
+                       let teacherHomeViewController = storyBoard.instantiateViewController(identifier: Constants.Storyboard.teacherHomeViewController) as! TeacherHomeViewController
+                        self.navigationController?.pushViewController(teacherHomeViewController, animated: false)
+                    }else{
+                        let studentHomeViewController = storyBoard.instantiateViewController(identifier: Constants.Storyboard.studentHomeViewController) as! StudentHomeViewController
+                        self.navigationController?.pushViewController(studentHomeViewController, animated: false)
+                    }
+                    
+                } else {
+                    print("Document does not exist")
+                }
+            }
+
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -10,6 +10,9 @@ target 'CLL' do
   pod 'JVFloatLabeledTextField'
   pod 'NVActivityIndicatorView'
   pod 'Firebase/Core'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
 
   # Crashlytics
   pod 'Fabric', '~> 1.9.0'

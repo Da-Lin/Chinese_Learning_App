@@ -26,7 +26,7 @@
 		C36A0C9A2238647000D6F9A1 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36A0C992238647000D6F9A1 /* SectionHeader.swift */; };
 		C3EACEA82171A80000D088F3 /* AuthorAnnotationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EACEA72171A80000D088F3 /* AuthorAnnotationViewController.swift */; };
 		C3EACEAA2173DACF00D088F3 /* AuthorRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EACEA92173DACF00D088F3 /* AuthorRecordingViewController.swift */; };
-		C3F26C122179162A001C8708 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3F26C112179162A001C8708 /* GoogleService-Info.plist */; };
+		C3F26C122179162A001C8708 /* GoogleService-Info11.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3F26C112179162A001C8708 /* GoogleService-Info11.plist */; };
 		C3FD029C217634D9000177EE /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD029B217634D9000177EE /* CloudKit.framework */; };
 		C3FD029F21763E67000177EE /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FD029E21763E67000177EE /* Lesson.swift */; };
 		C3FD02A12176405E000177EE /* LessonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FD02A02176405E000177EE /* LessonModel.swift */; };
@@ -36,8 +36,12 @@
 		FB41F5F423620E09004E5FD8 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5F323620E09004E5FD8 /* SignUpViewController.swift */; };
 		FB41F5F623620E13004E5FD8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5F523620E13004E5FD8 /* LoginViewController.swift */; };
 		FB41F5F823620E1F004E5FD8 /* LoginHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5F723620E1F004E5FD8 /* LoginHomeViewController.swift */; };
-		FB41F5FB23621162004E5FD8 /* UserHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5FA23621162004E5FD8 /* UserHomeViewController.swift */; };
+		FB41F5FB23621162004E5FD8 /* StudentHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5FA23621162004E5FD8 /* StudentHomeViewController.swift */; };
 		FB41F5FD23621184004E5FD8 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5FC23621184004E5FD8 /* Utilities.swift */; };
+		FB41F5FF23623457004E5FD8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB41F5FE23623457004E5FD8 /* GoogleService-Info.plist */; };
+		FB41F601236252CF004E5FD8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F600236252CF004E5FD8 /* Constants.swift */; };
+		FB41F604236284D8004E5FD8 /* loginbg.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FB41F603236284D8004E5FD8 /* loginbg.mp4 */; };
+		FB41F60623629BE6004E5FD8 /* TeacherHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F60523629BE6004E5FD8 /* TeacherHomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,7 +67,7 @@
 		C36A0C992238647000D6F9A1 /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		C3EACEA72171A80000D088F3 /* AuthorAnnotationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorAnnotationViewController.swift; sourceTree = "<group>"; };
 		C3EACEA92173DACF00D088F3 /* AuthorRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorRecordingViewController.swift; sourceTree = "<group>"; };
-		C3F26C112179162A001C8708 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C3F26C112179162A001C8708 /* GoogleService-Info11.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info11.plist"; sourceTree = "<group>"; };
 		C3FD029A217634D7000177EE /* CLL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CLL.entitlements; sourceTree = "<group>"; };
 		C3FD029B217634D9000177EE /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		C3FD029E21763E67000177EE /* Lesson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
@@ -75,8 +79,12 @@
 		FB41F5F323620E09004E5FD8 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		FB41F5F523620E13004E5FD8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FB41F5F723620E1F004E5FD8 /* LoginHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHomeViewController.swift; sourceTree = "<group>"; };
-		FB41F5FA23621162004E5FD8 /* UserHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHomeViewController.swift; sourceTree = "<group>"; };
+		FB41F5FA23621162004E5FD8 /* StudentHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentHomeViewController.swift; sourceTree = "<group>"; };
 		FB41F5FC23621184004E5FD8 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		FB41F5FE23623457004E5FD8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FB41F600236252CF004E5FD8 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FB41F603236284D8004E5FD8 /* loginbg.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loginbg.mp4; sourceTree = "<group>"; };
+		FB41F60523629BE6004E5FD8 /* TeacherHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherHomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +135,7 @@
 				C3FD029A217634D7000177EE /* CLL.entitlements */,
 				C30FF5D1210A717600E2766D /* AppDelegate.swift */,
 				C30FF5D3210A717600E2766D /* HomeViewController.swift */,
+				FB41F602236284B8004E5FD8 /* Media */,
 				FB41F5F223620DED004E5FD8 /* Authentication */,
 				FB41F5F923621153004E5FD8 /* User */,
 				C3FD029D21763DDC000177EE /* Models */,
@@ -137,7 +146,8 @@
 				C30FF5D5210A717600E2766D /* Main.storyboard */,
 				C30FF5D8210A717B00E2766D /* Assets.xcassets */,
 				C30FF5DA210A717B00E2766D /* LaunchScreen.storyboard */,
-				C3F26C112179162A001C8708 /* GoogleService-Info.plist */,
+				C3F26C112179162A001C8708 /* GoogleService-Info11.plist */,
+				FB41F5FE23623457004E5FD8 /* GoogleService-Info.plist */,
 				C30FF5DD210A717B00E2766D /* Info.plist */,
 			);
 			path = CLL;
@@ -146,6 +156,7 @@
 		C33F0EA4214593CC00422C06 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				FB41F600236252CF004E5FD8 /* Constants.swift */,
 				FB41F5FC23621184004E5FD8 /* Utilities.swift */,
 				C33F0EA5214593DB00422C06 /* UIFont+Extension.swift */,
 				C33F0EA6214593DB00422C06 /* UIViewController+Extension.swift */,
@@ -210,9 +221,18 @@
 		FB41F5F923621153004E5FD8 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				FB41F5FA23621162004E5FD8 /* UserHomeViewController.swift */,
+				FB41F5FA23621162004E5FD8 /* StudentHomeViewController.swift */,
+				FB41F60523629BE6004E5FD8 /* TeacherHomeViewController.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		FB41F602236284B8004E5FD8 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				FB41F603236284D8004E5FD8 /* loginbg.mp4 */,
+			);
+			path = Media;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -286,8 +306,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C30FF5DC210A717B00E2766D /* LaunchScreen.storyboard in Resources */,
-				C3F26C122179162A001C8708 /* GoogleService-Info.plist in Resources */,
+				C3F26C122179162A001C8708 /* GoogleService-Info11.plist in Resources */,
+				FB41F5FF23623457004E5FD8 /* GoogleService-Info.plist in Resources */,
 				C30FF5D9210A717B00E2766D /* Assets.xcassets in Resources */,
+				FB41F604236284D8004E5FD8 /* loginbg.mp4 in Resources */,
 				C30FF5D7210A717600E2766D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,6 +401,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB41F601236252CF004E5FD8 /* Constants.swift in Sources */,
 				FB41F5F623620E13004E5FD8 /* LoginViewController.swift in Sources */,
 				C3FD029F21763E67000177EE /* Lesson.swift in Sources */,
 				C3FD02A12176405E000177EE /* LessonModel.swift in Sources */,
@@ -392,13 +415,14 @@
 				C30FF5D4210A717600E2766D /* HomeViewController.swift in Sources */,
 				C3EACEA82171A80000D088F3 /* AuthorAnnotationViewController.swift in Sources */,
 				C352F9BB216FCE8E00624144 /* AuthoringMetadataViewController.swift in Sources */,
+				FB41F60623629BE6004E5FD8 /* TeacherHomeViewController.swift in Sources */,
 				C3FF6B53216AF8AB0060F333 /* LessonSelectionViewController.swift in Sources */,
 				C33F0EA8214593DB00422C06 /* UIFont+Extension.swift in Sources */,
 				C33F0EAE2146F49300422C06 /* SentenceModeViewController.swift in Sources */,
 				FB41F5F823620E1F004E5FD8 /* LoginHomeViewController.swift in Sources */,
 				FB41F5F423620E09004E5FD8 /* SignUpViewController.swift in Sources */,
 				C33F0EA9214593DB00422C06 /* UIViewController+Extension.swift in Sources */,
-				FB41F5FB23621162004E5FD8 /* UserHomeViewController.swift in Sources */,
+				FB41F5FB23621162004E5FD8 /* StudentHomeViewController.swift in Sources */,
 				C33F0EB22146FF3100422C06 /* CharacterView.swift in Sources */,
 				C30FF5D2210A717600E2766D /* AppDelegate.swift in Sources */,
 				C3EACEAA2173DACF00D088F3 /* AuthorRecordingViewController.swift in Sources */,
@@ -564,6 +588,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = CLL/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -592,6 +617,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = CLL/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
