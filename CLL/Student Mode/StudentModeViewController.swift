@@ -3,6 +3,9 @@ import FlatUIKit
 import AVKit
 import IoniconsKit
 import MessageUI
+import FirebaseStorage
+import FirebaseAuth
+import FirebaseFirestore
 
 private enum IndividualParagraphPlaybackStatus {
     case inactive
@@ -28,7 +31,7 @@ final class StudentModeViewController: UIViewController {
     
     // Student's voice recording and audio playback:
     @IBOutlet private weak var recordButton: FUIButton!
-    @IBOutlet private weak var shareButton: FUIButton!
+    @IBOutlet private weak var showRecordButton: FUIButton!
     @IBOutlet private weak var studentAudioPlaybackButton: FUIButton!
     
     private var recordingSession: AVAudioSession!
@@ -40,6 +43,8 @@ final class StudentModeViewController: UIViewController {
     private var isRecording = false
     private var isStudentRecordingPlaying = false
     private var paragraphPlaybackStatus = IndividualParagraphPlaybackStatus.inactive
+    
+    let numOfAudios = 0
     
     var lesson: Lesson? {
         didSet {
@@ -108,7 +113,7 @@ final class StudentModeViewController: UIViewController {
     }
     
     private func setupButtons() {
-        for button in [recordButton, pauseResumeButton, studentAudioPlaybackButton, shareButton, instructorPlayStopButton] {
+        for button in [recordButton, pauseResumeButton, studentAudioPlaybackButton, showRecordButton, instructorPlayStopButton] {
             button!.buttonColor = .primaryRed
             button!.shadowColor = .black
             button!.shadowHeight = 3.0
@@ -124,7 +129,7 @@ final class StudentModeViewController: UIViewController {
         instructorPlayStopButton.isEnabled = true
         
         pauseResumeButton.isHidden = true
-        shareButton.isHidden = true
+        showRecordButton.isHidden = false
         studentAudioPlaybackButton.isHidden = true
     }
     
@@ -137,7 +142,7 @@ final class StudentModeViewController: UIViewController {
         studentAudioPlaybackButton.setTitle("Listen", for: .normal)
         speedStepper.isEnabled = true
         recordButton.isEnabled = true
-        shareButton.isEnabled = true
+        showRecordButton.isEnabled = true
         studentAudioPlaybackButton.isEnabled = true
         invalidateTimer()
         indexOfCurrentSpokenCharacter = nil
@@ -154,7 +159,7 @@ final class StudentModeViewController: UIViewController {
             print("Audio file is missing!")
             return
         }
-
+        
         guard !isPlaying else {
             audioPlayer.stop()
             audioPlayerStopped()
@@ -170,7 +175,7 @@ final class StudentModeViewController: UIViewController {
         speedStepper.isEnabled = false
         instructorPlayStopButton.setTitle("Stop", for: .normal)
         recordButton.isEnabled = false
-        shareButton.isEnabled = false
+        showRecordButton.isEnabled = false
         studentAudioPlaybackButton.isEnabled = false
         
         pauseResumeButton.isHidden = false
@@ -178,15 +183,28 @@ final class StudentModeViewController: UIViewController {
     }
     
     @IBAction private func pauseResumeButtonTapped(_ sender: Any) {
-        if audioPlayer.isPlaying {
-            audioPlayer.pause()
-            invalidateTimer()
-            pauseResumeButton.setTitle(.ionicon(with: .iosPlay), for: .normal)
-        } else {
-            audioPlayer.play()
-            startTimer()
-            pauseResumeButton.setTitle(.ionicon(with: .iosPause), for: .normal)
+        if audioRecorder != nil{
+            if audioRecorder.isRecording{
+                audioRecorder.pause()
+                invalidateTimer()
+                pauseResumeButton.setTitle(.ionicon(with: .iosPlay), for: .normal)
+            }else{
+                audioRecorder.record()
+                startTimer()
+                pauseResumeButton.setTitle(.ionicon(with: .iosPause), for: .normal)
+            }
+        }else{
+            if audioPlayer.isPlaying {
+                audioPlayer.pause()
+                invalidateTimer()
+                pauseResumeButton.setTitle(.ionicon(with: .iosPlay), for: .normal)
+            } else {
+                audioPlayer.play()
+                startTimer()
+                pauseResumeButton.setTitle(.ionicon(with: .iosPause), for: .normal)
+            }
         }
+        
     }
     
     private func startTimer() {
@@ -206,8 +224,8 @@ final class StudentModeViewController: UIViewController {
         
         let flattenedIndex = characterStartTimes.lastIndex { (startTime) -> Bool in
             return timeElapsedIntoPlayback >= startTime
-        } ?? 0
-
+            } ?? 0
+        
         // print("FLATTENED INDEX: updates to \(flattenedIndex)")
         
         var counter = 0
@@ -221,7 +239,7 @@ final class StudentModeViewController: UIViewController {
                 counter += 1
             }
         }
-    
+        
         // If playing individual paragraphs, make sure to stop before the subsequent paragraph starts playing.
         if case .paragraph(let paragraphNumber) = paragraphPlaybackStatus {
             if paragraphNumber + 1 < lesson!.transcriptMetadata.count {
@@ -235,7 +253,7 @@ final class StudentModeViewController: UIViewController {
         
         if indexOfCurrentSpokenCharacter! != lastIndex {
             collectionView.scrollToItem(at: indexOfCurrentSpokenCharacter!, at: [.centeredVertically], animated: false)
-
+            
             UIView.performWithoutAnimation {
                 let paths = [lastIndex, indexOfCurrentSpokenCharacter].compactMap { $0 }
                 self.collectionView.reloadItems(at: paths)
@@ -259,7 +277,7 @@ final class StudentModeViewController: UIViewController {
             updateButtons(forState: .notRecording)
             return
         }
-
+        
         // Record button tapped:
         updateButtons(forState: .recording)
         startRecording()
@@ -284,11 +302,113 @@ final class StudentModeViewController: UIViewController {
             audioRecorder.delegate = self
             audioRecorder.record()
             recordButton.setTitle("Stop", for: .normal)
-
+            
             // Start animation
             startTimer()
         } catch {
             print("Error starting recording session")
+        }
+    }
+    
+    let alert = UIAlertController(title: nil, message: "Uploading file: 0%", preferredStyle: .alert)
+    func displaySpinner(percentComplete: Int){
+        
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: false, completion: nil)
+    }
+    
+    private func uploadAudio(){
+        if let uid = Auth.auth().currentUser?.uid{
+            let timestamp = NSDate().timeIntervalSince1970
+            let storageRef = Storage.storage().reference()
+            let url = "audios/" + uid + "/" + lesson!.title + "/" + String(timestamp) + ".mp4"
+            let userAudioRef = storageRef.child(url)
+            let metadata = StorageMetadata()
+            metadata.contentType = "audio/mp4"
+            
+            let uploadTask = userAudioRef.putFile(from: studentRecordingFileName, metadata: metadata)
+            self.displaySpinner(percentComplete: 0)
+            uploadTask.observe(.progress) { snapshot in
+                // Upload reported progress
+                let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+                    / Double(snapshot.progress!.totalUnitCount)
+                let percentage = String(format: "%.0f", percentComplete)
+                self.alert.message = "Uploading file: \(percentage)%"
+                print(percentComplete)
+            }
+            
+            uploadTask.observe(.success) { snapshot in
+                print("successful")
+                do{
+                    
+                    let docURL = self.getDocumentsDirectory()
+                    let dataPath = docURL.appendingPathComponent(self.lesson!.title)
+                    if !FileManager.default.fileExists(atPath: dataPath.relativePath) {
+                        do {
+                            try FileManager.default.createDirectory(atPath: dataPath.relativePath, withIntermediateDirectories: true, attributes: nil)
+                        } catch {
+                            print(error.localizedDescription);
+                        }
+                    }
+                    let destinationPath = self.getDocumentsDirectory().appendingPathComponent(self.lesson!.title).appendingPathComponent("\(String(timestamp)).m4a")
+                    try FileManager.default.moveItem(at: self.studentRecordingFileName, to: destinationPath)
+                    if FileManager.default.fileExists(atPath: self.studentRecordingFileName!.path) {
+                        print("exists original")
+                    }else{
+                        print("not exists original")
+                    }
+                    self.studentRecordingFileName = destinationPath
+                    if FileManager.default.fileExists(atPath: destinationPath.path) {
+                        print("exists new")
+                    }else{
+                        print("not exists new")
+                    }
+                } catch{
+                    print("ERROR - \(error)")
+                }
+                
+                self.dismiss(animated: false, completion: nil)
+                let db = Firestore.firestore()
+                db.collection("audios").document(uid).collection(self.lesson!.title).document(String(timestamp)).setData(["title":self.lesson!.title, "url": url]) { (error) in
+                    
+                    if error != nil {
+                        // Show error message
+                        print("Error saving user data")
+                    }
+                }
+            }
+            
+            uploadTask.observe(.failure) { snapshot in
+                self.dismiss(animated: false, completion: nil)
+                if let error = snapshot.error as NSError? {
+                    switch (StorageErrorCode(rawValue: error.code)!) {
+                    case .objectNotFound:
+                        print("File doesn't exist")
+                        break
+                    case .unauthorized:
+                        print("User doesn't have permission to access file")
+                        break
+                    case .cancelled:
+                        print("User canceled the upload")
+                        break
+                        
+                        /* ... */
+                        
+                    case .unknown:
+                        print("Unknown error occurred, inspect the server response")
+                        break
+                    default:
+                        print("A separate error occurred. This is a good place to retry the upload.")
+                        break
+                    }
+                }
+                
+            }
         }
     }
     
@@ -297,6 +417,7 @@ final class StudentModeViewController: UIViewController {
         audioRecorder.stop()
         audioRecorder = nil
         isRecording = false
+        uploadAudio()
         
         invalidateTimer()
         indexOfCurrentSpokenCharacter = nil
@@ -312,13 +433,17 @@ final class StudentModeViewController: UIViewController {
     private func updateButtons(forState state: StudentState) {
         switch state {
         case .recording:
-            shareButton.isHidden = true
+            pauseResumeButton.isHidden = false
+            pauseResumeButton.setTitle(.ionicon(with: .iosPause), for: .normal)
+            showRecordButton.isHidden = true
             instructorPlayStopButton.isEnabled = false
             studentAudioPlaybackButton.isHidden = true
             studentAudioPlaybackButton.isEnabled = true
             
         case .notRecording: // more precisely, "DONE recording":
-            shareButton.isHidden = false
+            pauseResumeButton.isHidden = true
+            pauseResumeButton.setTitle(.ionicon(with: .iosPause), for: .normal)
+            showRecordButton.isHidden = false
             instructorPlayStopButton.isEnabled = true
             studentAudioPlaybackButton.isHidden = false
             recordButton.setTitle("Re-Record", for: .normal)
@@ -360,7 +485,7 @@ final class StudentModeViewController: UIViewController {
             }
             studentAudioPlaybackButton.setTitle("Stop", for: .normal)
             recordButton.isEnabled = false
-            shareButton.isEnabled = false
+            showRecordButton.isEnabled = false
             instructorPlayStopButton.isEnabled = false
             
             prepareForAudioPlayback(isStudentRecording: true)
@@ -369,28 +494,36 @@ final class StudentModeViewController: UIViewController {
         }
     }
     
-    @IBAction private func shareButtonTapped(_ sender: Any) {
-        guard MFMailComposeViewController.canSendMail() else {
-            let alertView = UIAlertController(title: "Email Account Not Configured",
-                                              message: "To share this lesson via email, you must first have a Mail account created on this device.",
-                                              preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default)
-            alertView.addAction(okAction)
-            present(alertView, animated: true)
-            return
+    @IBAction private func viewRecordButtonTapped(_ sender: Any) {
+        if Auth.auth().currentUser?.uid != nil{
+            let studentAudioRecordsViewController = self.storyboard!.instantiateViewController(identifier: Constants.Storyboard.studentAudioRecordsController) as! StudentAudioRecordsViewController
+            studentAudioRecordsViewController.lessonTitle = lesson!.title
+            self.navigationController?.pushViewController(studentAudioRecordsViewController, animated: true)
         }
         
-        let mailComposer = MFMailComposeViewController()
-        mailComposer.mailComposeDelegate = self
         
-        let studentName = UserDefaults.standard.string(forKey: "STUDENT_NAME") ?? ""
-        mailComposer.setSubject("Bubble Chinese - \(lesson!.title)")
-        mailComposer.setMessageBody("Student name: \(studentName)\n\nLessonName: \(lesson!.title)\n\nAudio submission attached.", isHTML: false)
         
-        if let fileData = NSData(contentsOfFile: studentRecordingFileName.path) {
-            mailComposer.addAttachmentData(fileData as Data, mimeType: "audio/mp4", fileName: studentRecordingFileName.lastPathComponent)
-        }
-        present(mailComposer, animated: true, completion: nil)
+        //        guard MFMailComposeViewController.canSendMail() else {
+        //            let alertView = UIAlertController(title: "Email Account Not Configured",
+        //                                              message: "To share this lesson via email, you must first have a Mail account created on this device.",
+        //                                              preferredStyle: .alert)
+        //            let okAction = UIAlertAction(title: "OK", style: .default)
+        //            alertView.addAction(okAction)
+        //            present(alertView, animated: true)
+        //            return
+        //        }
+        //
+        //        let mailComposer = MFMailComposeViewController()
+        //        mailComposer.mailComposeDelegate = self
+        //
+        //        let studentName = UserDefaults.standard.string(forKey: "STUDENT_NAME") ?? ""
+        //        mailComposer.setSubject("Bubble Chinese - \(lesson!.title)")
+        //        mailComposer.setMessageBody("Student name: \(studentName)\n\nLessonName: \(lesson!.title)\n\nAudio submission attached.", isHTML: false)
+        //
+        //        if let fileData = NSData(contentsOfFile: studentRecordingFileName.path) {
+        //            mailComposer.addAttachmentData(fileData as Data, mimeType: "audio/mp4", fileName: studentRecordingFileName.lastPathComponent)
+        //        }
+        //        present(mailComposer, animated: true, completion: nil)
     }
     
     // MARK: - Helpers

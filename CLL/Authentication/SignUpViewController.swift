@@ -125,10 +125,10 @@ class SignUpViewController: UIViewController {
 
         if role == Constants.UserRole.student{
             let studentHomeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.studentHomeViewController) as! StudentHomeViewController
-            navigationController!.pushViewController(studentHomeViewController, animated: true)
+            navigationController!.pushViewController(studentHomeViewController, animated: false)
         }else{
             let teacherHomeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.teacherHomeViewController) as! TeacherHomeViewController
-            navigationController!.pushViewController(teacherHomeViewController, animated: true)
+            navigationController!.pushViewController(teacherHomeViewController, animated: false)
         }
     }
     

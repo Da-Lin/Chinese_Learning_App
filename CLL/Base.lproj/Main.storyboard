@@ -195,15 +195,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3UR-2z-m3N">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3UR-2z-m3N" customClass="FUIButton">
                                 <rect key="frame" x="77.5" y="40" width="220" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="1dh-az-hCD"/>
                                     <constraint firstAttribute="width" constant="220" id="8vl-12-nKl"/>
                                 </constraints>
-                                <state key="normal" title="Lessons"/>
+                                <state key="normal" title="Check Available Lessons"/>
                                 <connections>
-                                    <action selector="lessonButtonTapped:" destination="TYy-ee-tsN" eventType="touchUpInside" id="Ba4-Zs-aAS"/>
+                                    <action selector="lessonButtonTapped:" destination="TYy-ee-tsN" eventType="touchUpInside" id="SNc-Bo-Ehi"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -215,17 +215,17 @@
                         <viewLayoutGuide key="safeArea" id="0RO-E9-loL"/>
                     </view>
                     <connections>
-                        <outlet property="lessonsButton" destination="3UR-2z-m3N" id="3le-eI-bBG"/>
+                        <outlet property="lessonsButton" destination="3UR-2z-m3N" id="ao7-VO-4B0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y4L-Gi-1jC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3974" y="-58"/>
         </scene>
-        <!--View Controller-->
+        <!--Student Lessons View Controller-->
         <scene sceneID="AA1-l9-vr6">
             <objects>
-                <viewController id="fgl-do-atg" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StudentLessonsVC" id="fgl-do-atg" customClass="StudentLessonsViewController" customModule="CLL" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2HF-Mx-3Gg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -237,6 +237,50 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HFc-Tb-wxw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4860" y="-58"/>
+        </scene>
+        <!--Student Audio Records View Controller-->
+        <scene sceneID="way-8f-xXD">
+            <objects>
+                <viewController storyboardIdentifier="StudentAudioRecordsVC" id="kSy-dD-qlo" customClass="StudentAudioRecordsViewController" customModule="CLL" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uR6-kY-ODC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="nKy-em-Wwa">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AudioCell" id="JT7-qB-pHl">
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JT7-qB-pHl" id="Ziw-eh-wd5">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="kSy-dD-qlo" id="Mkf-YW-XyV"/>
+                                    <outlet property="delegate" destination="kSy-dD-qlo" id="v4O-Zd-z2a"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="nKy-em-Wwa" firstAttribute="centerY" secondItem="3qZ-zt-neV" secondAttribute="centerY" id="0Ru-xS-Rs4"/>
+                            <constraint firstItem="nKy-em-Wwa" firstAttribute="centerX" secondItem="3qZ-zt-neV" secondAttribute="centerX" id="JGu-Ze-di7"/>
+                            <constraint firstItem="nKy-em-Wwa" firstAttribute="height" secondItem="3qZ-zt-neV" secondAttribute="height" id="Pcx-IX-ccX"/>
+                            <constraint firstItem="nKy-em-Wwa" firstAttribute="width" secondItem="3qZ-zt-neV" secondAttribute="width" id="sfU-C9-yj2"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="3qZ-zt-neV"/>
+                    </view>
+                    <connections>
+                        <outlet property="recordsTableView" destination="nKy-em-Wwa" id="XdO-FG-KcD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rVo-5V-vya" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5692" y="-58"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="keY-LH-c6R">
@@ -1109,14 +1153,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aof-oa-8TL" userLabel="Share Button" customClass="FUIButton">
-                                <rect key="frame" x="126" y="602" width="80" height="50"/>
+                                <rect key="frame" x="126" y="602" width="100" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="ZMz-hs-gkP"/>
-                                    <constraint firstAttribute="width" constant="80" id="mWO-AZ-xtX"/>
+                                    <constraint firstAttribute="width" constant="100" id="mWO-AZ-xtX"/>
                                 </constraints>
-                                <state key="normal" title="Share"/>
+                                <state key="normal" title="Review"/>
                                 <connections>
-                                    <action selector="shareButtonTapped:" destination="c3M-dQ-adC" eventType="touchUpInside" id="R5M-9x-rQG"/>
+                                    <action selector="viewRecordButtonTapped:" destination="c3M-dQ-adC" eventType="touchUpInside" id="R5M-9x-rQG"/>
                                 </connections>
                             </button>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="0.5" maximumValue="2" stepValue="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="Z3O-Hw-bFL">
@@ -1243,7 +1287,7 @@
                         <outlet property="instructorPlayStopButton" destination="4qf-H7-ZxK" id="7kG-OR-vSZ"/>
                         <outlet property="pauseResumeButton" destination="4Xj-UR-jWQ" id="Lsq-2v-MzG"/>
                         <outlet property="recordButton" destination="OqB-d3-Abu" id="cMR-6R-9jW"/>
-                        <outlet property="shareButton" destination="aof-oa-8TL" id="LCE-xu-8DI"/>
+                        <outlet property="showRecordButton" destination="aof-oa-8TL" id="LCE-xu-8DI"/>
                         <outlet property="speedLabel" destination="2oG-5K-awt" id="HBU-eu-Qi7"/>
                         <outlet property="speedStepper" destination="Z3O-Hw-bFL" id="aFc-M8-tEw"/>
                         <outlet property="studentAudioPlaybackButton" destination="kE1-Xq-v6E" id="iMG-I0-M5J"/>

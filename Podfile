@@ -13,6 +13,7 @@ target 'CLL' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
 
   # Crashlytics
   pod 'Fabric', '~> 1.9.0'

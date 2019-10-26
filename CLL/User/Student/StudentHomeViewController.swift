@@ -3,6 +3,7 @@ import FirebaseAuth
 import FlatUIKit
 
 class StudentHomeViewController: UIViewController {
+    
     @IBOutlet weak var lessonsButton: FUIButton!
     
     override func viewDidLoad() {
@@ -11,6 +12,8 @@ class StudentHomeViewController: UIViewController {
         self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(title: "Sign Out", style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleSignOutButtonTapped))
         self.navigationItem.leftBarButtonItem = newBackButton
+        view.backgroundColor = .primaryRed
+        setupButtons()
     }
     
     override func viewWillAppear(_ animated: Bool) {

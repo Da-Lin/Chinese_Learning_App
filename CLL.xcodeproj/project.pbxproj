@@ -42,6 +42,8 @@
 		FB41F601236252CF004E5FD8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F600236252CF004E5FD8 /* Constants.swift */; };
 		FB41F604236284D8004E5FD8 /* loginbg.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FB41F603236284D8004E5FD8 /* loginbg.mp4 */; };
 		FB41F60623629BE6004E5FD8 /* TeacherHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F60523629BE6004E5FD8 /* TeacherHomeViewController.swift */; };
+		FB41F608236389A9004E5FD8 /* StudentLessonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F607236389A9004E5FD8 /* StudentLessonsViewController.swift */; };
+		FB41F60B236389D1004E5FD8 /* StudentAudioRecordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F60A236389D1004E5FD8 /* StudentAudioRecordsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +87,8 @@
 		FB41F600236252CF004E5FD8 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FB41F603236284D8004E5FD8 /* loginbg.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loginbg.mp4; sourceTree = "<group>"; };
 		FB41F60523629BE6004E5FD8 /* TeacherHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherHomeViewController.swift; sourceTree = "<group>"; };
+		FB41F607236389A9004E5FD8 /* StudentLessonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLessonsViewController.swift; sourceTree = "<group>"; };
+		FB41F60A236389D1004E5FD8 /* StudentAudioRecordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentAudioRecordsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,7 +225,7 @@
 		FB41F5F923621153004E5FD8 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				FB41F5FA23621162004E5FD8 /* StudentHomeViewController.swift */,
+				FB41F609236389AF004E5FD8 /* Student */,
 				FB41F60523629BE6004E5FD8 /* TeacherHomeViewController.swift */,
 			);
 			path = User;
@@ -233,6 +237,16 @@
 				FB41F603236284D8004E5FD8 /* loginbg.mp4 */,
 			);
 			path = Media;
+			sourceTree = "<group>";
+		};
+		FB41F609236389AF004E5FD8 /* Student */ = {
+			isa = PBXGroup;
+			children = (
+				FB41F607236389A9004E5FD8 /* StudentLessonsViewController.swift */,
+				FB41F5FA23621162004E5FD8 /* StudentHomeViewController.swift */,
+				FB41F60A236389D1004E5FD8 /* StudentAudioRecordsViewController.swift */,
+			);
+			path = Student;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -410,12 +424,14 @@
 				C33F0EBA2148314900422C06 /* String+Extension.swift in Sources */,
 				FB41F5FD23621184004E5FD8 /* Utilities.swift in Sources */,
 				C33F0EA3214592CC00422C06 /* UIColor+Extension.swift in Sources */,
+				FB41F608236389A9004E5FD8 /* StudentLessonsViewController.swift in Sources */,
 				C3FD02A52176A028000177EE /* CharacterPopoverViewController.swift in Sources */,
 				C36A0C9A2238647000D6F9A1 /* SectionHeader.swift in Sources */,
 				C30FF5D4210A717600E2766D /* HomeViewController.swift in Sources */,
 				C3EACEA82171A80000D088F3 /* AuthorAnnotationViewController.swift in Sources */,
 				C352F9BB216FCE8E00624144 /* AuthoringMetadataViewController.swift in Sources */,
 				FB41F60623629BE6004E5FD8 /* TeacherHomeViewController.swift in Sources */,
+				FB41F60B236389D1004E5FD8 /* StudentAudioRecordsViewController.swift in Sources */,
 				C3FF6B53216AF8AB0060F333 /* LessonSelectionViewController.swift in Sources */,
 				C33F0EA8214593DB00422C06 /* UIFont+Extension.swift in Sources */,
 				C33F0EAE2146F49300422C06 /* SentenceModeViewController.swift in Sources */,

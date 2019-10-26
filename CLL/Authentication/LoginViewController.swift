@@ -48,20 +48,20 @@ class LoginViewController: UIViewController {
                 self.errorLabel.alpha = 1
             }
             else {
-                self.displaySpinner()
+                //self.displaySpinner()
                 let db = Firestore.firestore()
                 let uid = result!.user.uid
                 db.collection("users").document(uid).getDocument { (document, err) in
-                    self.dismiss(animated: false, completion: nil)
+                    //self.dismiss(animated: false, completion: nil)
                     if let document = document, document.exists {
                         let data = document.data()!
                         let role = data["role"] as! Int
                         if role == Constants.UserRole.teacher {
                             let teacherHomeViewController = self.storyboard!.instantiateViewController(identifier: Constants.Storyboard.teacherHomeViewController) as! TeacherHomeViewController
-                            self.navigationController?.pushViewController(teacherHomeViewController, animated: true)
+                            self.navigationController?.pushViewController(teacherHomeViewController, animated: false)
                         }else{
                             let studentHomeViewController = self.storyboard!.instantiateViewController(identifier: Constants.Storyboard.studentHomeViewController) as! StudentHomeViewController
-                            self.navigationController?.pushViewController(studentHomeViewController, animated: true)
+                            self.navigationController?.pushViewController(studentHomeViewController, animated: false)
                         }
                         
                     } else {
