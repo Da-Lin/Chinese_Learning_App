@@ -382,14 +382,14 @@ final class StudentModeViewController: UIViewController {
                     if let document = document, document.exists {
                         let data = document.data()!
                         var lessons:[String]
-                        if data["Lessons"] != nil{
-                            lessons = data["Lessons"] as! [String]
+                        if data["lessons"] != nil{
+                            lessons = data["lessons"] as! [String]
                         }else{
                             lessons = [String]()
                         }
                         if !lessons.contains(newLesson){
                             lessons.append(newLesson)
-                            usersRef.updateData(["Lessons": lessons]) { (error) in
+                            usersRef.updateData(["lessons": lessons]) { (error) in
                                 if error != nil {
                                     // Show error message
                                     print("Error saving user data")

@@ -20,7 +20,7 @@ class StudentLessonsViewController: UIViewController {
         usersRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()!
-                if let lessons = data["Lessons"] as? [String]{
+                if let lessons = data["lessons"] as? [String]{
                     self.lessons = lessons
                     self.lessonTable.reloadData()
                 }

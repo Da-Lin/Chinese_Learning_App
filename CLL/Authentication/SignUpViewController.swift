@@ -10,6 +10,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var roleSeg: UISegmentedControl!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var teacherEmailTextField: UITextField!
     
     var role = 0
     
@@ -28,6 +29,7 @@ class SignUpViewController: UIViewController {
         Utilities.styleTextField(emailTextField)
         Utilities.styleTextField(passwordTextField)
         Utilities.styleFilledButton(signUpButton)
+        Utilities.styleTextField(teacherEmailTextField)
     }
     
 
@@ -83,6 +85,7 @@ class SignUpViewController: UIViewController {
             let lastName = lastNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let teacherEmail = teacherEmailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
             // Create the user
             Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
@@ -96,8 +99,8 @@ class SignUpViewController: UIViewController {
                     // User was created successfully, now store the first name and last name
                     let db = Firestore.firestore()
                     
-                    db.collection("users").document(result!.user.uid).setData(["firstname":firstName, "lastname":lastName, "uid": result!.user.uid, "role": self.role ]) { (error) in
-                        
+                    db.collection("users").document(result!.user.uid).setData(["firstname":firstName, "lastname":lastName, "email": email, "uid": result!.user.uid, "role": self.role, "teacherEmail": teacherEmail ]) { (error) in
+                         
                         if error != nil {
                             // Show error message
                             self.showError("Error saving user data")
@@ -138,10 +141,43 @@ class SignUpViewController: UIViewController {
         case 0:
             role = Constants.UserRole.student
         case 1:
-            role = Constants.UserRole.teacher
+            promptForAuthoringToolPassword()
         default:
             break
         }
+    }
+    
+    private func promptForAuthoringToolPassword() {
+        
+//        guard !UserDefaults.standard.bool(forKey: "AUTHOR_HAS_AUTHENTICATED") else {
+//            teacherAuth = true
+//            return
+//        }
+        
+        let alertController = UIAlertController(title: "Are you a content author?", message: "If so, please enter your password to use the Authoring Tool.", preferredStyle: .alert)
+        alertController.addTextField { textField in
+            textField.placeholder = "password"
+            textField.isSecureTextEntry = true
+        }
+        let confirmAction = UIAlertAction(title: "Submit", style: .default) { [weak self, weak alertController] _ in
+            guard let alertController = alertController, let textField = alertController.textFields?.first else { return }
+            if textField.text == "CLL2018" {
+                UserDefaults.standard.set(true, forKey: "AUTHOR_HAS_AUTHENTICATED")
+                self!.role = Constants.UserRole.teacher
+                self!.roleSeg.selectedSegmentIndex = 1
+            }else{
+                self!.role = Constants.UserRole.student
+                self!.roleSeg.selectedSegmentIndex = 0
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) {
+            UIAlertAction in
+            self.role = Constants.UserRole.student
+            self.roleSeg.selectedSegmentIndex = 0
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(confirmAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     

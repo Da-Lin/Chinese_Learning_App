@@ -217,17 +217,29 @@
                                     <action selector="checkSavedLessonsButtonTapped:" destination="TYy-ee-tsN" eventType="touchUpInside" id="5m6-lV-OZz"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jyC-0b-59Y" customClass="FUIButton">
+                                <rect key="frame" x="77.5" y="240" width="220" height="60"/>
+                                <state key="normal" title="Changer Teacher"/>
+                                <connections>
+                                    <action selector="changeTeacherButtonTapped:" destination="TYy-ee-tsN" eventType="touchUpInside" id="sa1-ZM-R6a"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="jyC-0b-59Y" firstAttribute="height" secondItem="3UR-2z-m3N" secondAttribute="height" id="0D0-Y5-eFw"/>
+                            <constraint firstItem="jyC-0b-59Y" firstAttribute="width" secondItem="3UR-2z-m3N" secondAttribute="width" id="7iA-Ha-JTf"/>
                             <constraint firstItem="3UR-2z-m3N" firstAttribute="top" secondItem="0RO-E9-loL" secondAttribute="top" constant="40" id="CrJ-4e-jRF"/>
                             <constraint firstItem="CHx-XZ-c2r" firstAttribute="centerX" secondItem="0RO-E9-loL" secondAttribute="centerX" id="J6R-mf-3jY"/>
+                            <constraint firstItem="jyC-0b-59Y" firstAttribute="top" secondItem="CHx-XZ-c2r" secondAttribute="bottom" constant="40" id="Twn-Lg-pyo"/>
                             <constraint firstItem="3UR-2z-m3N" firstAttribute="centerX" secondItem="0RO-E9-loL" secondAttribute="centerX" id="UWe-YB-dSX"/>
+                            <constraint firstItem="jyC-0b-59Y" firstAttribute="centerX" secondItem="0RO-E9-loL" secondAttribute="centerX" id="lf3-DU-zml"/>
                             <constraint firstItem="CHx-XZ-c2r" firstAttribute="top" secondItem="3UR-2z-m3N" secondAttribute="bottom" constant="40" id="qkr-RR-69g"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0RO-E9-loL"/>
                     </view>
                     <connections>
+                        <outlet property="changeTeacherButton" destination="jyC-0b-59Y" id="lf1-vt-reW"/>
                         <outlet property="checkSavedLessonsButton" destination="CHx-XZ-c2r" id="4fo-1I-4Br"/>
                         <outlet property="lessonsButton" destination="3UR-2z-m3N" id="ao7-VO-4B0"/>
                     </connections>
@@ -334,7 +346,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="DIi-7l-CSG">
-                                <rect key="frame" x="40" y="84" width="295" height="440.5"/>
+                                <rect key="frame" x="40" y="84" width="295" height="510.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uqr-7n-wb6">
                                         <rect key="frame" x="0.0" y="0.0" width="295" height="50"/>
@@ -356,8 +368,13 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Teach Email (Optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Als-K7-HN9">
+                                        <rect key="frame" x="0.0" y="280" width="295" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cKi-BL-njl">
-                                        <rect key="frame" x="0.0" y="280" width="295" height="51"/>
+                                        <rect key="frame" x="0.0" y="350" width="295" height="51"/>
                                         <segments>
                                             <segment title="Student"/>
                                             <segment title="Teacher"/>
@@ -367,7 +384,7 @@
                                         </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zZp-GF-qkK">
-                                        <rect key="frame" x="0.0" y="350" width="295" height="50"/>
+                                        <rect key="frame" x="0.0" y="420" width="295" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="6DM-OG-Qb9"/>
                                         </constraints>
@@ -377,7 +394,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qsv-W0-fdi">
-                                        <rect key="frame" x="0.0" y="420" width="295" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="490" width="295" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -388,6 +405,7 @@
                                     <constraint firstItem="Rta-Lj-jlr" firstAttribute="height" secondItem="uqr-7n-wb6" secondAttribute="height" id="Hcu-9F-aqw"/>
                                     <constraint firstItem="XDF-rr-Sfi" firstAttribute="height" secondItem="uqr-7n-wb6" secondAttribute="height" id="bmK-OP-pfQ"/>
                                     <constraint firstItem="cKi-BL-njl" firstAttribute="height" secondItem="uqr-7n-wb6" secondAttribute="height" id="npA-5X-Msu"/>
+                                    <constraint firstItem="Als-K7-HN9" firstAttribute="height" secondItem="uqr-7n-wb6" secondAttribute="height" id="vN3-PN-vHW"/>
                                     <constraint firstItem="zZp-GF-qkK" firstAttribute="height" secondItem="uqr-7n-wb6" secondAttribute="height" id="xoA-Ga-hZy"/>
                                 </constraints>
                             </stackView>
@@ -409,9 +427,16 @@
                         <outlet property="passwordTextField" destination="cTG-jk-HQN" id="fsH-PB-EvG"/>
                         <outlet property="roleSeg" destination="cKi-BL-njl" id="OFx-Nd-U4O"/>
                         <outlet property="signUpButton" destination="zZp-GF-qkK" id="kaA-ec-R4M"/>
+                        <outlet property="teacherEmailTextField" destination="Als-K7-HN9" id="Yav-GZ-I7s"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uwu-x2-ZwR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" id="GOZ-wM-eur">
+                    <rect key="frame" x="0.0" y="0.0" width="295" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                </textField>
             </objects>
             <point key="canvasLocation" x="2742" y="-58"/>
         </scene>
