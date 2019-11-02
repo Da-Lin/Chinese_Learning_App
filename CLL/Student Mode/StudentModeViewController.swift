@@ -62,7 +62,7 @@ final class StudentModeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = lesson?.title
+        title = lesson!.title + " - " + lesson!.authorName
         view.backgroundColor = .backgroundGrey
         
         setupButtons()
@@ -522,7 +522,7 @@ final class StudentModeViewController: UIViewController {
     @IBAction private func viewRecordButtonTapped(_ sender: Any) {
         if Auth.auth().currentUser?.uid != nil{
             let studentAudioRecordsViewController = self.storyboard!.instantiateViewController(identifier: Constants.Storyboard.studentAudioRecordsController) as! StudentAudioRecordsViewController
-            studentAudioRecordsViewController.lessonTitle = lesson!.title
+            studentAudioRecordsViewController.lessonTitle = lesson!.title + " - " + lesson!.authorName
             self.navigationController?.pushViewController(studentAudioRecordsViewController, animated: true)
         }
         

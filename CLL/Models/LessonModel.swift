@@ -66,7 +66,7 @@ class LessonModel {
             }
             
             if let results = results {
-                print("Successfully fetched all lesson records: ", results)
+                //print("Successfully fetched all lesson records: ", results)
                 lessons = results.compactMap { record in
                     return Lesson(record: record)
                 }
