@@ -5,6 +5,7 @@ import FlatUIKit
 class StudentHomeViewController: UIViewController {
     
     @IBOutlet weak var lessonsButton: FUIButton!
+    @IBOutlet weak var checkSavedLessonsButton: FUIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,12 +22,16 @@ class StudentHomeViewController: UIViewController {
     }
     
     @IBAction func lessonButtonTapped(_ sender: Any) {
-        let lessonSelectionVC = storyboard?.instantiateViewController(withIdentifier: "LessonSelectionViewController") as! LessonSelectionViewController
+        let lessonSelectionVC = storyboard?.instantiateViewController(withIdentifier: Constants.Storyboard.lessonSelectionViewController) as! LessonSelectionViewController
         navigationController?.pushViewController(lessonSelectionVC, animated: true)
+    }
+    @IBAction func checkSavedLessonsButtonTapped(_ sender: Any) {
+        let studentLessonsController = storyboard?.instantiateViewController(withIdentifier: Constants.Storyboard.studentLessonsController) as! StudentLessonsViewController
+        navigationController?.pushViewController(studentLessonsController, animated: true)
     }
     
     private func setupButtons() {
-        [lessonsButton].forEach { button in
+        [lessonsButton, checkSavedLessonsButton].forEach { button in
             guard let button = button else { return }
             button.buttonColor = .white
             button.shadowColor = .darkGray
@@ -46,15 +51,4 @@ class StudentHomeViewController: UIViewController {
         }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

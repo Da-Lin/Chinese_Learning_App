@@ -373,9 +373,34 @@ final class StudentModeViewController: UIViewController {
                 }
                 
                 self.dismiss(animated: false, completion: nil)
+                
+                //upload lessons data to firestore
+                let newLesson = self.lesson!.title + " - " + self.lesson!.authorName
                 let db = Firestore.firestore()
-                db.collection("audios").document(uid).collection(self.lesson!.title).document(String(timestamp)).setData(["title":self.lesson!.title, "url": url]) { (error) in
-                    
+                let usersRef = db.collection("users").document(uid)
+                usersRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()!
+                        var lessons:[String]
+                        if data["Lessons"] != nil{
+                            lessons = data["Lessons"] as! [String]
+                        }else{
+                            lessons = [String]()
+                        }
+                        if !lessons.contains(newLesson){
+                            lessons.append(newLesson)
+                            usersRef.updateData(["Lessons": lessons]) { (error) in
+                                if error != nil {
+                                    // Show error message
+                                    print("Error saving user data")
+                                }
+                            }
+                        }
+                    } else {
+                        print("Document does not exist")
+                    }
+                }
+                db.collection("audios").document(uid).collection(newLesson).document(String(timestamp)).setData(["title":newLesson, "url": url]) { (error) in
                     if error != nil {
                         // Show error message
                         print("Error saving user data")

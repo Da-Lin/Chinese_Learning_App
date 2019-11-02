@@ -18,6 +18,7 @@ struct Constants {
         static let teacherHomeViewController = "TeacherHomeVC"
         static let studentLessonsController = "StudentLessonsVC"
         static let studentAudioRecordsController = "StudentAudioRecordsVC"
+        static let lessonSelectionViewController = "LessonSelectionViewController"
         
     }
     

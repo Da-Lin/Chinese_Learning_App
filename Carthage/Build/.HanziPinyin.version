@@ -1,19 +1,10 @@
 {
-  "Mac" : [
-
-  ],
-  "watchOS" : [
-
-  ],
-  "tvOS" : [
-
-  ],
   "commitish" : "1.0.0",
   "iOS" : [
     {
       "name" : "HanziPinyin",
-      "hash" : "d4f64b9f7b84496a6f3ee972577186dfc22da8e44206e9b50215a5bdc5b51ebd",
-      "swiftToolchainVersion" : "5.1 (swiftlang-1100.0.270.13 clang-1100.0.33.7)"
+      "hash" : "6bfc43e445100a077120005b872baf5ca612a0dc4df418ba939bc35c2c0d05e8",
+      "swiftToolchainVersion" : "5.1.2 (swiftlang-1100.0.278 clang-1100.0.33.9)"
     }
   ]
 }
