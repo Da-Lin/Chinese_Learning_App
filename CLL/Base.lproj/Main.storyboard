@@ -337,6 +337,48 @@
             </objects>
             <point key="canvasLocation" x="5692" y="-58"/>
         </scene>
+        <!--Student Lesson Feedback View Controller-->
+        <scene sceneID="WUw-Nz-rDh">
+            <objects>
+                <viewController storyboardIdentifier="StudentLessonFeedbackVC" id="txN-dL-LpO" customClass="StudentLessonFeedbackViewController" customModule="CLL" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eB5-4l-k4A">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3U3-PZ-c3h">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="533.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1aN-Cx-Hhi">
+                                <rect key="frame" x="126" y="637" width="123" height="30"/>
+                                <state key="normal" title="Provide Feedback"/>
+                                <connections>
+                                    <action selector="feedbackButtonTapped:" destination="txN-dL-LpO" eventType="touchUpInside" id="3aj-TD-9gW"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="3U3-PZ-c3h" firstAttribute="centerX" secondItem="Adu-R8-0Gg" secondAttribute="centerX" id="0HN-mR-TNu"/>
+                            <constraint firstItem="3U3-PZ-c3h" firstAttribute="width" secondItem="Adu-R8-0Gg" secondAttribute="width" id="QBZ-G1-qhj"/>
+                            <constraint firstItem="3U3-PZ-c3h" firstAttribute="height" secondItem="Adu-R8-0Gg" secondAttribute="height" multiplier="0.8" id="iac-AK-Jha"/>
+                            <constraint firstItem="Adu-R8-0Gg" firstAttribute="bottom" secondItem="1aN-Cx-Hhi" secondAttribute="bottom" id="usR-P1-y6H"/>
+                            <constraint firstItem="3U3-PZ-c3h" firstAttribute="top" secondItem="Adu-R8-0Gg" secondAttribute="top" id="vmW-OR-W43"/>
+                            <constraint firstItem="1aN-Cx-Hhi" firstAttribute="centerX" secondItem="Adu-R8-0Gg" secondAttribute="centerX" id="ygU-cd-jJ4"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Adu-R8-0Gg"/>
+                    </view>
+                    <connections>
+                        <outlet property="feedbackButton" destination="1aN-Cx-Hhi" id="x4a-pH-Jbj"/>
+                        <outlet property="feedbackLabel" destination="3U3-PZ-c3h" id="Hmd-WC-rAA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sww-ag-ZTz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6635" y="304"/>
+        </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="keY-LH-c6R">
             <objects>
@@ -983,9 +1025,29 @@
                     <view key="view" contentMode="scaleToFill" id="ykr-0A-Fgn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="icJ-je-xQy" customClass="FUIButton">
+                                <rect key="frame" x="77.5" y="40" width="220" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="Ufm-vU-9QK"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="220" id="XUL-Kc-R3w"/>
+                                </constraints>
+                                <state key="normal" title="View Students"/>
+                                <connections>
+                                    <action selector="viewStudentsButtonTapped:" destination="Rlw-yX-gQv" eventType="touchUpInside" id="Nmo-hA-Yq8"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="icJ-je-xQy" firstAttribute="centerX" secondItem="ozv-p0-GK9" secondAttribute="centerX" id="0rP-ec-j5P"/>
+                            <constraint firstItem="icJ-je-xQy" firstAttribute="top" secondItem="ozv-p0-GK9" secondAttribute="top" constant="40" id="dxq-dl-5Ta"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="ozv-p0-GK9"/>
                     </view>
+                    <connections>
+                        <outlet property="viewStudentsButton" destination="icJ-je-xQy" id="rmO-JQ-4Eu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vAX-BG-L0g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1364,6 +1426,50 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QPC-jb-4tm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2818" y="-790"/>
+        </scene>
+        <!--TeacherS-->
+        <scene sceneID="dQP-J6-5aL">
+            <objects>
+                <viewController storyboardIdentifier="TeacherStudentsVC" title="TeacherS" id="gjC-IB-4dJ" customClass="TeacherStudentsViewController" customModule="CLL" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Cp6-or-cJ1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="byp-j0-fj2">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="StudentCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="StudentCell" id="GLx-i2-DP7">
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GLx-i2-DP7" id="HZV-IQ-96o">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="gjC-IB-4dJ" id="Dzn-Ka-BkG"/>
+                                    <outlet property="delegate" destination="gjC-IB-4dJ" id="9YB-Dx-kHG"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="byp-j0-fj2" firstAttribute="centerX" secondItem="tTt-nT-QLw" secondAttribute="centerX" id="4eA-uD-jRb"/>
+                            <constraint firstItem="byp-j0-fj2" firstAttribute="height" secondItem="tTt-nT-QLw" secondAttribute="height" id="FUw-hU-MWF"/>
+                            <constraint firstItem="byp-j0-fj2" firstAttribute="width" secondItem="tTt-nT-QLw" secondAttribute="width" id="abv-81-Oro"/>
+                            <constraint firstItem="byp-j0-fj2" firstAttribute="centerY" secondItem="tTt-nT-QLw" secondAttribute="centerY" id="i8G-Cc-Gje"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="tTt-nT-QLw"/>
+                    </view>
+                    <connections>
+                        <outlet property="studentsTableView" destination="byp-j0-fj2" id="Wig-V4-zcb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QZl-1v-gTE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4860" y="662.51874062968523"/>
         </scene>
     </scenes>
 </document>

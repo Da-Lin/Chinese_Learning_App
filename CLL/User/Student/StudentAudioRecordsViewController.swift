@@ -9,10 +9,12 @@ class StudentAudioRecordsViewController: UIViewController {
     @IBOutlet weak var recordsTableView: UITableView!
     
     public var lessonTitle = ""
-    let uid = Auth.auth().currentUser!.uid
+    var uid = Auth.auth().currentUser!.uid
     let db = Firestore.firestore()
+    var isTeacher = false
     
     var audioPlayer: AVAudioPlayer!
+    var submitted = false;
     
     public var audioURLs = [String]()
     public var timeStamps = [TimeInterval]()
@@ -22,6 +24,89 @@ class StudentAudioRecordsViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         getAuidos()
+        if !isTeacher{
+            initValue()
+        }else{
+            setUpFeedbackButton()
+        }
+    }
+    
+    func initValue(){
+        let usersRef = db.collection("users").document(uid)
+        usersRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()!
+                if let submittedLessons = data["submittedLessons"] as? [String]{
+                    if submittedLessons.contains(self.lessonTitle){
+                        self.submitted = true
+                    }else{
+                        self.submitted = false
+                    }
+                }
+                self.setUpNavButtons()
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func setUpFeedbackButton(){
+        let feedbackButton = UIBarButtonItem(title: "Provide Feedback", style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleFeedbackButtonTapped))
+        self.navigationItem.rightBarButtonItem = feedbackButton
+    }
+    
+    func setUpNavButtons(){
+        let submitButton = UIBarButtonItem(title: "Submit", style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleSubmitButtonTapped))
+        if submitted{
+            submitButton.title = "Cancel Submission"
+        }
+        let feedbackButton = UIBarButtonItem(title: "View Feedback", style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleFeedbackButtonTapped))
+        self.navigationItem.rightBarButtonItems = [submitButton, feedbackButton]
+    }
+    
+    @objc func handleFeedbackButtonTapped(){
+        let studentLessonFeedbackViewController = self.storyboard!.instantiateViewController(identifier: Constants.Storyboard.studentLessonFeedbackViewController) as! StudentLessonFeedbackViewController
+        studentLessonFeedbackViewController.isTeacher = isTeacher
+        studentLessonFeedbackViewController.studentId = uid
+        studentLessonFeedbackViewController.lessonTitle = lessonTitle
+        self.navigationController?.pushViewController(studentLessonFeedbackViewController, animated: true)
+    }
+    
+    @objc func handleSubmitButtonTapped(){
+        let usersRef = db.collection("users").document(uid)
+        usersRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()!
+                if var submittedLessons = data["submittedLessons"] as? [String]{
+                    if !submittedLessons.contains(self.lessonTitle){
+                        self.submitted = true
+                        submittedLessons.append(self.lessonTitle)
+                        self.setSubmittedLesson(submittedLessons)
+                    }else{
+                        self.submitted = false
+                        submittedLessons.removeAll{$0 == self.lessonTitle}
+                        self.setSubmittedLesson(submittedLessons)
+                    }
+                }else{
+                    self.submitted = true
+                    let submittedLessons = [self.lessonTitle]
+                    self.setSubmittedLesson(submittedLessons)
+                }
+                self.setUpNavButtons()
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func setSubmittedLesson(_ submittedLessons: [String]){
+        let usersRef = self.db.collection("users").document(self.uid)
+        usersRef.updateData(["submittedLessons": submittedLessons]) { (error) in
+            if error != nil {
+                // Show error message
+                print("Error saving user data")
+            }
+        }
     }
     
     func getAuidos(){
@@ -116,7 +201,7 @@ extension StudentAudioRecordsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return !isTeacher
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -164,9 +249,9 @@ extension StudentAudioRecordsViewController: UITableViewDataSource {
                 usersRef.getDocument { (document, error) in
                     if let document = document, document.exists {
                         let data = document.data()!
-                        var lessons = data["Lessons"] as! [String]
+                        var lessons = data["lessons"] as! [String]
                         lessons.removeAll{$0 == self.lessonTitle}
-                        usersRef.updateData(["Lessons": lessons]) { (error) in
+                        usersRef.updateData(["lessons": lessons]) { (error) in
                             if error != nil {
                                 // Show error message
                                 print("Error saving user data")

@@ -1,6 +1,6 @@
 import UIKit
 import FirebaseAuth
-import Firebase
+import FirebaseFirestore
 
 class SignUpViewController: UIViewController {
     @IBOutlet weak var firstNameTextField: UITextField!
@@ -13,6 +13,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var teacherEmailTextField: UITextField!
     
     var role = 0
+    let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,17 +33,6 @@ class SignUpViewController: UIViewController {
         Utilities.styleTextField(teacherEmailTextField)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     func validateFields() -> String? {
         
         // Check that all fields are filled in
@@ -61,10 +51,10 @@ class SignUpViewController: UIViewController {
             return "Please make sure your password is at least 6 characters."
         }
         
-//        if Utilities.isPasswordValid(cleanedPassword) == false {
-//            // Password isn't secure enough
-//            return "Please make sure your password is at least 8 characters, contains a special character and a number."
-//        }
+        //        if Utilities.isPasswordValid(cleanedPassword) == false {
+        //            // Password isn't secure enough
+        //            return "Please make sure your password is at least 8 characters, contains a special character and a number."
+        //        }
         
         return nil
     }
@@ -87,33 +77,96 @@ class SignUpViewController: UIViewController {
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let teacherEmail = teacherEmailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
-            // Create the user
-            Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
-                
-                // Check for errors
-                if err != nil {
-                    // There was an error creating the user
-                    self.showError(err!.localizedDescription)
-                }
-                else {
-                    // User was created successfully, now store the first name and last name
-                    let db = Firestore.firestore()
-                    
-                    db.collection("users").document(result!.user.uid).setData(["firstname":firstName, "lastname":lastName, "email": email, "uid": result!.user.uid, "role": self.role, "teacherEmail": teacherEmail ]) { (error) in
-                         
-                        if error != nil {
-                            // Show error message
-                            self.showError("Error saving user data")
+            if teacherEmail.count > 0{
+                db.collection("users").whereField("role", isEqualTo: 1).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        var found = false
+                        for document in querySnapshot!.documents {
+                            let data = document.data()
+                            if let teacherEmailCloud = data["email"] as? String{
+                                if teacherEmailCloud == teacherEmail{
+                                    found = true
+                                    // Create the user
+                                    Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
+                                        // Check for errors
+                                        if err != nil {
+                                            // There was an error creating the user
+                                            self.showError(err!.localizedDescription)
+                                        }
+                                        else {
+                                            // User was created successfully, now store the first name and last name
+                                            self.db.collection("users").document(result!.user.uid).setData(["firstname":firstName, "lastname":lastName, "email": email, "uid": result!.user.uid, "role": self.role, "teacherEmail": teacherEmail ]) { (error) in
+                                                
+                                                if error != nil {
+                                                    // Show error message
+                                                    self.showError("Error saving user data")
+                                                }
+                                            }
+                                            
+                                            //new teacher add student
+                                            self.db.collection("users").whereField("email", isEqualTo: teacherEmail).getDocuments() { (querySnapshot, err) in
+                                                if let err = err {
+                                                    print("Error getting documents: \(err)")
+                                                } else {
+                                                    for document in querySnapshot!.documents {
+                                                        let data = document.data()
+                                                        var students = [String]()
+                                                        if let studentsCloud = data["students"]{
+                                                            students = studentsCloud as! [String]
+                                                        }
+                                                        if !students.contains(result!.user.uid){
+                                                            students.append(result!.user.uid)
+                                                            self.db.collection("users").document(data["uid"] as! String).updateData(["students": students]){ (error) in
+                                                                if error != nil {
+                                                                    // Show error message
+                                                                    print("Error saving user data")
+                                                                }
+                                                            }
+                                                        }
+                                                        
+                                                    }
+                                                }
+                                            }
+                                            
+                                            // Transition to the home screen
+                                            self.transitionToHome()
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                        }
+                        if !found{
+                            self.showError("No teacher email found, leave blank if not know")
                         }
                     }
-                    
-                    // Transition to the home screen
-                    self.transitionToHome()
                 }
-                
+            }else{
+                // Create the user
+                Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
+                    // Check for errors
+                    if err != nil {
+                        // There was an error creating the user
+                        self.showError(err!.localizedDescription)
+                    }
+                    else {
+                        // User was created successfully, now store the first name and last name
+                        self.db.collection("users").document(result!.user.uid).setData(["firstname":firstName, "lastname":lastName, "email": email, "uid": result!.user.uid, "role": self.role, "teacherEmail": teacherEmail ]) { (error) in
+                            
+                            if error != nil {
+                                // Show error message
+                                self.showError("Error saving user data")
+                            }
+                        }
+                        
+                        // Transition to the home screen
+                        self.transitionToHome()
+                    }
+                    
+                }
             }
-            
-            
             
         }
     }
@@ -125,7 +178,7 @@ class SignUpViewController: UIViewController {
     }
     
     func transitionToHome() {
-
+        
         if role == Constants.UserRole.student{
             let studentHomeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.studentHomeViewController) as! StudentHomeViewController
             navigationController!.pushViewController(studentHomeViewController, animated: false)
@@ -149,10 +202,10 @@ class SignUpViewController: UIViewController {
     
     private func promptForAuthoringToolPassword() {
         
-//        guard !UserDefaults.standard.bool(forKey: "AUTHOR_HAS_AUTHENTICATED") else {
-//            teacherAuth = true
-//            return
-//        }
+        //        guard !UserDefaults.standard.bool(forKey: "AUTHOR_HAS_AUTHENTICATED") else {
+        //            teacherAuth = true
+        //            return
+        //        }
         
         let alertController = UIAlertController(title: "Are you a content author?", message: "If so, please enter your password to use the Authoring Tool.", preferredStyle: .alert)
         alertController.addTextField { textField in

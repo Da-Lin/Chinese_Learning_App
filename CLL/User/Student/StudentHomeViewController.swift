@@ -93,6 +93,12 @@ class StudentHomeViewController: UIViewController {
     
     private func checkAndUpdateTeacherEmail(_ teacherEmailEntered: String){
         let alertController = UIAlertController(title: "", message: "", preferredStyle: .alert)
+        if teacherEmailEntered == teacherEmail{
+            alertController.title = "This email is already your teacher email"
+            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return
+        }
         db.collection("users").whereField("role", isEqualTo: 1).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -102,6 +108,53 @@ class StudentHomeViewController: UIViewController {
                     let data = document.data()
                     if let teacherEmailCloud = data["email"] as? String {
                         if teacherEmailCloud == teacherEmailEntered{
+                            
+                            //new teacher add student
+                            self.db.collection("users").whereField("email", isEqualTo: teacherEmailEntered).getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print("Error getting documents: \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        let data = document.data()
+                                        var students = [String]()
+                                        if let studentsCloud = data["students"]{
+                                            students = studentsCloud as! [String]
+                                        }
+                                        if !students.contains(self.uid){
+                                            students.append(self.uid)
+                                            self.db.collection("users").document(data["uid"] as! String).updateData(["students": students]){ (error) in
+                                                if error != nil {
+                                                    // Show error message
+                                                    print("Error saving user data")
+                                                }
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                            
+                            //old teacher removed student
+                            self.db.collection("users").whereField("email", isEqualTo: self.teacherEmail).getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print("Error getting documents: \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        let data = document.data()
+                                        var students = [String]()
+                                        if let studentsCloud = data["students"]{
+                                            students = studentsCloud as! [String]
+                                        }
+                                        students.removeAll{$0 == self.uid}
+                                        self.db.collection("users").document(data["uid"] as! String).updateData(["students": students]){ (error) in
+                                            if error != nil {
+                                                // Show error message
+                                                print("Error saving user data")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                             self.teacherEmail = teacherEmailEntered
                             found = true
                             alertController.title = "Teacher email successfully updated."

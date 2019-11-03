@@ -5,8 +5,9 @@ import FirebaseAuth
 class StudentLessonsViewController: UIViewController {
     @IBOutlet weak var lessonTable: UITableView!
     
-    let uid = Auth.auth().currentUser!.uid
+    var uid = Auth.auth().currentUser!.uid
     var lessons = [String]()
+    var isTeacher = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,10 +21,18 @@ class StudentLessonsViewController: UIViewController {
         usersRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()!
-                if let lessons = data["lessons"] as? [String]{
-                    self.lessons = lessons
-                    self.lessonTable.reloadData()
+                if !self.isTeacher{
+                    if let lessons = data["lessons"] as? [String]{
+                        self.lessons = lessons
+                        self.lessonTable.reloadData()
+                    }
+                }else{
+                    if let lessons = data["submittedLessons"] as? [String]{
+                        self.lessons = lessons
+                        self.lessonTable.reloadData()
+                    }
                 }
+                
             } else {
                 print("Document does not exist")
             }
@@ -36,6 +45,8 @@ extension StudentLessonsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let studentAudioRecordsViewController = self.storyboard!.instantiateViewController(identifier: Constants.Storyboard.studentAudioRecordsController) as! StudentAudioRecordsViewController
         studentAudioRecordsViewController.lessonTitle = lessons[indexPath.row]
+        studentAudioRecordsViewController.isTeacher = isTeacher
+        studentAudioRecordsViewController.uid = uid
         self.navigationController?.pushViewController(studentAudioRecordsViewController, animated: true)
     }
 }
