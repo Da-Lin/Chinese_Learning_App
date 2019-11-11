@@ -7,7 +7,7 @@ ${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework
 ${BUILT_PRODUCTS_DIR}/IoniconsKit/IoniconsKit.framework
 ${BUILT_PRODUCTS_DIR}/JVFloatLabeledTextField/JVFloatLabeledTextField.framework
 ${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework
-${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework
+${BUILT_PRODUCTS_DIR}/Protobuf/protobuf.framework
 ${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework
 ${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework
 ${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework

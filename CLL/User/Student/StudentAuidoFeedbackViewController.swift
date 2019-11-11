@@ -124,7 +124,7 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
         if self.audioRecorder == nil{
             let alertController = UIAlertController(title: "Enter Time", message: "", preferredStyle: .alert)
             alertController.addTextField { textField in
-                textField.placeholder = "00:00"
+                textField.placeholder = "00.00"
             }
             let confirmAction = UIAlertAction(title: "OK", style: .default) { [weak self, weak alertController] _ in
                 guard let alertController = alertController, let textField = alertController.textFields?.first else { return }

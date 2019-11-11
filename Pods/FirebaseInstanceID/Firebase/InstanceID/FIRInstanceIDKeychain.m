@@ -60,10 +60,9 @@ static const NSUInteger kRSA2048KeyPairSize = 2048;
       if (keyRef) {
         CFRelease(keyRef);
       }
-      FIRInstanceIDLoggerDebug(
-          kFIRInstanceIDKeychainReadItemError,
-          @"No info is retrieved from Keychain OSStatus: %d with the keychain query %@",
-          (int)status, keychainQuery);
+      FIRInstanceIDLoggerDebug(kFIRInstanceIDKeychainReadItemError,
+                               @"Info is not found in Keychain. OSStatus: %d. Keychain query: %@",
+                               (int)status, keychainQuery);
     }
   });
   return keyRef;
@@ -127,14 +126,14 @@ static const NSUInteger kRSA2048KeyPairSize = 2048;
     (__bridge id)kSecAttrIsPermanent : @YES,
     (__bridge id)kSecAttrApplicationTag : privateTagData,
     (__bridge id)kSecAttrLabel : @"Firebase InstanceID Key Pair Private Key",
-    (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleAlwaysThisDeviceOnly,
+    (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
   };
 
   NSDictionary *publicKeyAttr = @{
     (__bridge id)kSecAttrIsPermanent : @YES,
     (__bridge id)kSecAttrApplicationTag : publicTagData,
     (__bridge id)kSecAttrLabel : @"Firebase InstanceID Key Pair Public Key",
-    (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleAlwaysThisDeviceOnly,
+    (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
   };
 
   NSDictionary *keyPairAttributes = @{
