@@ -20,7 +20,7 @@ struct Constants {
         static let studentAudioRecordsController = "StudentAudioRecordsVC"
         static let lessonSelectionViewController = "LessonSelectionViewController"
         static let teacherStudentsViewController = "TeacherStudentsVC"
-        static let studentLessonFeedbackViewController = "StudentLessonFeedbackVC"
+        static let studentAudioFeedbackViewController = "StudentAudioFeedbackVC"
     }
     
     struct UserRole{

@@ -34,7 +34,7 @@
 		C3FD02A72176E2E0000177EE /* StudentModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FD02A62176E2E0000177EE /* StudentModeViewController.swift */; };
 		C3FF6B53216AF8AB0060F333 /* LessonSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FF6B52216AF8AB0060F333 /* LessonSelectionViewController.swift */; };
 		FB20B373236E647200DD6279 /* TeacherStudentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB20B372236E647200DD6279 /* TeacherStudentsViewController.swift */; };
-		FB20B375236E7AFD00DD6279 /* StudentLessonFeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB20B374236E7AFD00DD6279 /* StudentLessonFeedbackViewController.swift */; };
+		FB20B375236E7AFD00DD6279 /* StudentAuidoFeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB20B374236E7AFD00DD6279 /* StudentAuidoFeedbackViewController.swift */; };
 		FB41F5F423620E09004E5FD8 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5F323620E09004E5FD8 /* SignUpViewController.swift */; };
 		FB41F5F623620E13004E5FD8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5F523620E13004E5FD8 /* LoginViewController.swift */; };
 		FB41F5F823620E1F004E5FD8 /* LoginHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5F723620E1F004E5FD8 /* LoginHomeViewController.swift */; };
@@ -81,7 +81,7 @@
 		C3FF6B52216AF8AB0060F333 /* LessonSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonSelectionViewController.swift; sourceTree = "<group>"; };
 		F4920096E6E0159FCE554723 /* Pods-CLL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CLL.release.xcconfig"; path = "Pods/Target Support Files/Pods-CLL/Pods-CLL.release.xcconfig"; sourceTree = "<group>"; };
 		FB20B372236E647200DD6279 /* TeacherStudentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherStudentsViewController.swift; sourceTree = "<group>"; };
-		FB20B374236E7AFD00DD6279 /* StudentLessonFeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLessonFeedbackViewController.swift; sourceTree = "<group>"; };
+		FB20B374236E7AFD00DD6279 /* StudentAuidoFeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentAuidoFeedbackViewController.swift; sourceTree = "<group>"; };
 		FB41F5F323620E09004E5FD8 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		FB41F5F523620E13004E5FD8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FB41F5F723620E1F004E5FD8 /* LoginHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHomeViewController.swift; sourceTree = "<group>"; };
@@ -258,7 +258,7 @@
 				FB41F5FA23621162004E5FD8 /* StudentHomeViewController.swift */,
 				FB41F607236389A9004E5FD8 /* StudentLessonsViewController.swift */,
 				FB41F60A236389D1004E5FD8 /* StudentAudioRecordsViewController.swift */,
-				FB20B374236E7AFD00DD6279 /* StudentLessonFeedbackViewController.swift */,
+				FB20B374236E7AFD00DD6279 /* StudentAuidoFeedbackViewController.swift */,
 			);
 			path = Student;
 			sourceTree = "<group>";
@@ -458,7 +458,7 @@
 				C30FF5D2210A717600E2766D /* AppDelegate.swift in Sources */,
 				C3EACEAA2173DACF00D088F3 /* AuthorRecordingViewController.swift in Sources */,
 				C3FD02A72176E2E0000177EE /* StudentModeViewController.swift in Sources */,
-				FB20B375236E7AFD00DD6279 /* StudentLessonFeedbackViewController.swift in Sources */,
+				FB20B375236E7AFD00DD6279 /* StudentAuidoFeedbackViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

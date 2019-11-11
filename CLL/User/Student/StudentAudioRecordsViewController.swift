@@ -24,11 +24,8 @@ class StudentAudioRecordsViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         getAuidos()
-        if !isTeacher{
-            initValue()
-        }else{
-            setUpFeedbackButton()
-        }
+        initValue()
+        
     }
     
     func initValue(){
@@ -50,27 +47,27 @@ class StudentAudioRecordsViewController: UIViewController {
         }
     }
     
-    func setUpFeedbackButton(){
-        let feedbackButton = UIBarButtonItem(title: "Provide Feedback", style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleFeedbackButtonTapped))
-        self.navigationItem.rightBarButtonItem = feedbackButton
-    }
+    //    func setUpFeedbackButton(){
+    //        let feedbackButton = UIBarButtonItem(title: "Provide Feedback", style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleFeedbackButtonTapped))
+    //        self.navigationItem.rightBarButtonItem = feedbackButton
+    //    }
     
     func setUpNavButtons(){
         let submitButton = UIBarButtonItem(title: "Submit", style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleSubmitButtonTapped))
         if submitted{
             submitButton.title = "Cancel Submission"
         }
-        let feedbackButton = UIBarButtonItem(title: "View Feedback", style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleFeedbackButtonTapped))
-        self.navigationItem.rightBarButtonItems = [submitButton, feedbackButton]
+        //        let feedbackButton = UIBarButtonItem(title: "View Feedback", style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleFeedbackButtonTapped))
+        self.navigationItem.rightBarButtonItem = submitButton
     }
     
-    @objc func handleFeedbackButtonTapped(){
-        let studentLessonFeedbackViewController = self.storyboard!.instantiateViewController(identifier: Constants.Storyboard.studentLessonFeedbackViewController) as! StudentLessonFeedbackViewController
-        studentLessonFeedbackViewController.isTeacher = isTeacher
-        studentLessonFeedbackViewController.studentId = uid
-        studentLessonFeedbackViewController.lessonTitle = lessonTitle
-        self.navigationController?.pushViewController(studentLessonFeedbackViewController, animated: true)
-    }
+    //    @objc func handleFeedbackButtonTapped(){
+    //        let studentLessonFeedbackViewController = self.storyboard!.instantiateViewController(identifier: Constants.Storyboard.studentLessonFeedbackViewController) as! StudentAudioFeedbackViewController
+    //        studentLessonFeedbackViewController.isTeacher = isTeacher
+    //        studentLessonFeedbackViewController.studentId = uid
+    //        studentLessonFeedbackViewController.lessonTitle = lessonTitle
+    //        self.navigationController?.pushViewController(studentLessonFeedbackViewController, animated: true)
+    //    }
     
     @objc func handleSubmitButtonTapped(){
         let usersRef = db.collection("users").document(uid)
@@ -132,7 +129,7 @@ class StudentAudioRecordsViewController: UIViewController {
             return 
         }
         for i in 0...timeStamps.count - 1{
-            let dataPath = self.getDocumentsDirectory().appendingPathComponent(lessonTitle).appendingPathComponent(String(timeStamps[i]))
+            let dataPath = self.getDocumentsDirectory().appendingPathComponent(lessonTitle).appendingPathComponent(String(timeStamps[i]) + ".mp4")
             if FileManager.default.fileExists(atPath: dataPath.relativePath) {
                 //existsFlags.append(true)
             }else{
@@ -140,7 +137,7 @@ class StudentAudioRecordsViewController: UIViewController {
                 let url = audioURLs[i]
                 let storageRef = Storage.storage().reference()
                 let userAudioRef = storageRef.child(url)
-                let localURL = self.getDocumentsDirectory().appendingPathComponent(lessonTitle).appendingPathComponent(String(timeStamps[i]))
+                let localURL = self.getDocumentsDirectory().appendingPathComponent(lessonTitle).appendingPathComponent(String(timeStamps[i]) + ".mp4")
                 let downloadTask = userAudioRef.write(toFile: localURL) { url, error in
                     if let error = error {
                         // Uh-oh, an error occurred!
@@ -171,14 +168,19 @@ class StudentAudioRecordsViewController: UIViewController {
 
 extension StudentAudioRecordsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let dataPath = self.getDocumentsDirectory().appendingPathComponent(lessonTitle).appendingPathComponent(String(timeStamps[indexPath.row]))
+        let dataPath = self.getDocumentsDirectory().appendingPathComponent(lessonTitle).appendingPathComponent(String(timeStamps[indexPath.row]) + ".mp4")
         if FileManager.default.fileExists(atPath: dataPath.relativePath) {
-            do {
-                audioPlayer = try AVAudioPlayer(contentsOf: dataPath)
-                audioPlayer?.play()
-            } catch {
-                // couldn't load file :(
-            }
+            
+            let studentAudioFeedbackViewController = self.storyboard!.instantiateViewController(identifier: Constants.Storyboard.studentAudioFeedbackViewController) as! StudentAudioFeedbackViewController
+            studentAudioFeedbackViewController.isTeacher = isTeacher
+            studentAudioFeedbackViewController.studentId = uid
+            studentAudioFeedbackViewController.lessonTitle = lessonTitle
+            studentAudioFeedbackViewController.dataPath = dataPath
+            print(dataPath)
+            self.navigationController?.pushViewController(studentAudioFeedbackViewController, animated: true)
+            //                audioPlayer = try AVAudioPlayer(contentsOf: dataPath)
+            //                audioPlayer?.play()
+            
         }
         
     }
@@ -209,7 +211,7 @@ extension StudentAudioRecordsViewController: UITableViewDataSource {
         if (editingStyle == .delete) {
             
             //remove local file
-            let dataPath = self.getDocumentsDirectory().appendingPathComponent(lessonTitle).appendingPathComponent(String(timeStamps[index]))
+            let dataPath = self.getDocumentsDirectory().appendingPathComponent(lessonTitle).appendingPathComponent(String(timeStamps[index]) + ".mp4")
             if FileManager.default.fileExists(atPath: dataPath.relativePath) {
                 //existsFlags.append(true)
                 do {
