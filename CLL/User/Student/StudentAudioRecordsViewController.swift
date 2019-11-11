@@ -24,8 +24,9 @@ class StudentAudioRecordsViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         getAuidos()
-        initValue()
-        
+        if !isTeacher{
+            initValue()
+        }
     }
     
     func initValue(){
@@ -176,11 +177,8 @@ extension StudentAudioRecordsViewController: UITableViewDelegate {
             studentAudioFeedbackViewController.studentId = uid
             studentAudioFeedbackViewController.lessonTitle = lessonTitle
             studentAudioFeedbackViewController.dataPath = dataPath
-            print(dataPath)
+            studentAudioFeedbackViewController.audioTimeStamp = String(timeStamps[indexPath.row])
             self.navigationController?.pushViewController(studentAudioFeedbackViewController, animated: true)
-            //                audioPlayer = try AVAudioPlayer(contentsOf: dataPath)
-            //                audioPlayer?.play()
-            
         }
         
     }

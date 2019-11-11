@@ -1,5 +1,6 @@
 import UIKit
 import NVActivityIndicatorView
+import FirebaseAuth
 
 class LessonSelectionViewController: UIViewController {
     
@@ -23,7 +24,7 @@ class LessonSelectionViewController: UIViewController {
             self?.tableView.reloadData()
         }
         
-        presentNewUserNamePrompt()
+        //presentNewUserNamePrompt()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,6 +36,9 @@ class LessonSelectionViewController: UIViewController {
     private func presentNewUserNamePrompt() {
         
         if UserDefaults.standard.string(forKey: "STUDENT_NAME") != nil {
+            return
+        }
+        if Auth.auth().currentUser != nil{
             return
         }
         

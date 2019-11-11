@@ -214,8 +214,7 @@ class SignUpViewController: UIViewController {
         }
         let confirmAction = UIAlertAction(title: "Submit", style: .default) { [weak self, weak alertController] _ in
             guard let alertController = alertController, let textField = alertController.textFields?.first else { return }
-            if textField.text == "CLL2018" {
-                UserDefaults.standard.set(true, forKey: "AUTHOR_HAS_AUTHENTICATED")
+            if textField.text == Constants.Passwords.RegisterAsTeacher {
                 self!.role = Constants.UserRole.teacher
                 self!.roleSeg.selectedSegmentIndex = 1
             }else{

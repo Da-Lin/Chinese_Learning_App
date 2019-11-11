@@ -28,4 +28,8 @@ struct Constants {
         static let teacher = 1
     }
     
+    struct Passwords{
+        static let RegisterAsTeacher = "CLL2019"
+    }
+    
 }

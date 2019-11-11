@@ -26,19 +26,8 @@
                                     <action selector="lessonsButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZOm-IP-fws"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1hi-SJ-mS3" userLabel="Authoring Tool Button" customClass="FUIButton">
-                                <rect key="frame" x="97" y="248" width="220" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="Q8x-l8-Op3"/>
-                                    <constraint firstAttribute="width" constant="220" id="sIY-on-bdV"/>
-                                </constraints>
-                                <state key="normal" title="Authoring Tool"/>
-                                <connections>
-                                    <action selector="authorButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hNa-C3-WN0"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Hc-Zj-bZU" customClass="FUIButton">
-                                <rect key="frame" x="97" y="348" width="220" height="60"/>
+                                <rect key="frame" x="97" y="248" width="220" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="220" id="RWI-NR-B6J"/>
                                     <constraint firstAttribute="height" constant="60" id="ad2-dg-LHm"/>
@@ -51,18 +40,15 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="1hi-SJ-mS3" firstAttribute="top" secondItem="B0e-2s-6Rc" secondAttribute="bottom" constant="40" id="0LE-3k-a2i"/>
-                            <constraint firstItem="1hi-SJ-mS3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5mc-uf-sHU"/>
                             <constraint firstItem="7Hc-Zj-bZU" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="aay-XZ-Ne3"/>
-                            <constraint firstItem="7Hc-Zj-bZU" firstAttribute="top" secondItem="1hi-SJ-mS3" secondAttribute="bottom" constant="40" id="bAc-49-hox"/>
                             <constraint firstItem="B0e-2s-6Rc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hip-b7-R55"/>
+                            <constraint firstItem="7Hc-Zj-bZU" firstAttribute="top" secondItem="B0e-2s-6Rc" secondAttribute="bottom" constant="40" id="sjf-yd-7ke"/>
                             <constraint firstItem="B0e-2s-6Rc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="w0c-af-Ruc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="iDA-mB-QRp"/>
                     <connections>
-                        <outlet property="authoringButton" destination="1hi-SJ-mS3" id="bXp-hU-1U8"/>
                         <outlet property="lessonsButton" destination="B0e-2s-6Rc" id="IrX-0x-GzL"/>
                         <outlet property="loginButton" destination="7Hc-Zj-bZU" id="g3E-7h-eO6"/>
                     </connections>
@@ -348,24 +334,27 @@
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="NKU-Mg-3A7">
                                 <rect key="frame" x="38" y="84" width="338" height="31"/>
                             </slider>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="Cpc-OI-o2I">
-                                <rect key="frame" x="43" y="114" width="328" height="30"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="Cpc-OI-o2I">
+                                <rect key="frame" x="24" y="114" width="366" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kMx-1q-cCo">
                                         <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="bkK-iL-ziC"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I9C-hd-NFB">
-                                        <rect key="frame" x="146" y="0.0" width="50" height="30"/>
+                                        <rect key="frame" x="160" y="0.0" width="46" height="30"/>
                                         <state key="normal" title="Play"/>
                                         <connections>
                                             <action selector="playButtonTapped:" destination="txN-dL-LpO" eventType="touchUpInside" id="Zax-wf-VzO"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="H8G-s0-toY">
-                                        <rect key="frame" x="296" y="0.0" width="32" height="30"/>
+                                        <rect key="frame" x="320" y="0.0" width="32" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Stop"/>
                                         <connections>
@@ -373,10 +362,28 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="H8G-s0-toY" firstAttribute="width" secondItem="kMx-1q-cCo" secondAttribute="width" id="ElD-OO-Ez0"/>
+                                    <constraint firstItem="I9C-hd-NFB" firstAttribute="width" secondItem="kMx-1q-cCo" secondAttribute="width" id="QgX-bw-hPf"/>
+                                </constraints>
                             </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fBa-QC-ORo">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="fBa-QC-ORo">
                                 <rect key="frame" x="0.0" y="152" width="414" height="710"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FeedbackAudioCell" id="REZ-Ku-TCj">
+                                        <rect key="frame" x="0.0" y="55.333332061767578" width="414" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="REZ-Ku-TCj" id="E1D-98-Gs6">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="txN-dL-LpO" id="Jie-Rr-Oqg"/>
+                                    <outlet property="delegate" destination="txN-dL-LpO" id="rPy-WU-ak4"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -1063,15 +1070,29 @@
                                     <action selector="viewStudentsButtonTapped:" destination="Rlw-yX-gQv" eventType="touchUpInside" id="Nmo-hA-Yq8"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYB-S5-dFw" customClass="FUIButton">
+                                <rect key="frame" x="97" y="184" width="220" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="220" id="GHD-ZU-jaA"/>
+                                    <constraint firstAttribute="height" constant="60" id="Sh6-fB-Neo"/>
+                                </constraints>
+                                <state key="normal" title="New Lesson"/>
+                                <connections>
+                                    <action selector="newLessonButtonTapped:" destination="Rlw-yX-gQv" eventType="touchUpInside" id="5zv-BK-aLM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="icJ-je-xQy" firstAttribute="centerX" secondItem="ozv-p0-GK9" secondAttribute="centerX" id="0rP-ec-j5P"/>
+                            <constraint firstItem="FYB-S5-dFw" firstAttribute="centerX" secondItem="ozv-p0-GK9" secondAttribute="centerX" id="Cbq-3h-J8t"/>
                             <constraint firstItem="icJ-je-xQy" firstAttribute="top" secondItem="ozv-p0-GK9" secondAttribute="top" constant="40" id="dxq-dl-5Ta"/>
+                            <constraint firstItem="FYB-S5-dFw" firstAttribute="top" secondItem="icJ-je-xQy" secondAttribute="bottom" constant="40" id="pnd-1b-7RA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ozv-p0-GK9"/>
                     </view>
                     <connections>
+                        <outlet property="newLessonButton" destination="FYB-S5-dFw" id="nqP-T6-o8A"/>
                         <outlet property="viewStudentsButton" destination="icJ-je-xQy" id="rmO-JQ-4Eu"/>
                     </connections>
                 </viewController>

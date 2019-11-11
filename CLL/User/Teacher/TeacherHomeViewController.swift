@@ -4,6 +4,7 @@ import FlatUIKit
 
 class TeacherHomeViewController: UIViewController {
 
+    @IBOutlet weak var newLessonButton: FUIButton!
     @IBOutlet weak var viewStudentsButton: FUIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +19,7 @@ class TeacherHomeViewController: UIViewController {
     }
     
     private func setupButtons() {
-        [viewStudentsButton].forEach { button in
+        [viewStudentsButton, newLessonButton].forEach { button in
             guard let button = button else { return }
             button.buttonColor = .white
             button.shadowColor = .darkGray
@@ -41,5 +42,10 @@ class TeacherHomeViewController: UIViewController {
     @IBAction func viewStudentsButtonTapped(_ sender: Any) {
         let teacherStudentsVC = storyboard?.instantiateViewController(withIdentifier: Constants.Storyboard.teacherStudentsViewController) as! TeacherStudentsViewController
         navigationController?.pushViewController(teacherStudentsVC, animated: true)
+    }
+    
+    @IBAction func newLessonButtonTapped(_ sender: Any) {
+        let sentenceVC = storyboard?.instantiateViewController(withIdentifier: "AuthoringMetadataViewController") as! AuthoringMetadataViewController
+        navigationController?.pushViewController(sentenceVC, animated: true)
     }
 }

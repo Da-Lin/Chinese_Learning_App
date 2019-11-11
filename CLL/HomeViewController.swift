@@ -6,7 +6,6 @@ import FirebaseFirestore
 class HomeViewController: UIViewController {
 
     @IBOutlet weak var lessonsButton: FUIButton!
-    @IBOutlet weak var authoringButton: FUIButton!
     @IBOutlet weak var loginButton: FUIButton!
     
     override func viewDidLoad() {
@@ -74,7 +73,7 @@ class HomeViewController: UIViewController {
     }
     
     private func setupButtons() {
-        [lessonsButton, authoringButton, loginButton].forEach { button in
+        [lessonsButton, loginButton].forEach { button in
             guard let button = button else { return }
             button.buttonColor = .white
             button.shadowColor = .darkGray
@@ -91,34 +90,30 @@ class HomeViewController: UIViewController {
         let lessonSelectionVC = storyboard?.instantiateViewController(withIdentifier: "LessonSelectionViewController") as! LessonSelectionViewController
         navigationController?.pushViewController(lessonSelectionVC, animated: true)
     }
-
-    @IBAction private func authorButtonTapped(_ sender: Any) {
-        promptForAuthoringToolPassword()
-    }
     
-    private func promptForAuthoringToolPassword() {
-        
-        guard !UserDefaults.standard.bool(forKey: "AUTHOR_HAS_AUTHENTICATED") else {
-            navigateToAuthoringTool()
-            return
-        }
-        
-        let alertController = UIAlertController(title: "Are you a content author?", message: "If so, please enter your password to use the Authoring Tool.", preferredStyle: .alert)
-        alertController.addTextField { textField in
-            textField.placeholder = "password"
-            textField.isSecureTextEntry = true
-        }
-        let confirmAction = UIAlertAction(title: "Submit", style: .default) { [weak self, weak alertController] _ in
-            guard let alertController = alertController, let textField = alertController.textFields?.first else { return }
-            if textField.text == "CLL2018" {
-                UserDefaults.standard.set(true, forKey: "AUTHOR_HAS_AUTHENTICATED")
-                self?.navigateToAuthoringTool()
-            }
-        }
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alertController.addAction(confirmAction)
-        present(alertController, animated: true, completion: nil)
-    }
+//    private func promptForAuthoringToolPassword() {
+//        
+//        guard !UserDefaults.standard.bool(forKey: "AUTHOR_HAS_AUTHENTICATED") else {
+//            navigateToAuthoringTool()
+//            return
+//        }
+//        
+//        let alertController = UIAlertController(title: "Are you a content author?", message: "If so, please enter your password to use the Authoring Tool.", preferredStyle: .alert)
+//        alertController.addTextField { textField in
+//            textField.placeholder = "password"
+//            textField.isSecureTextEntry = true
+//        }
+//        let confirmAction = UIAlertAction(title: "Submit", style: .default) { [weak self, weak alertController] _ in
+//            guard let alertController = alertController, let textField = alertController.textFields?.first else { return }
+//            if textField.text == "CLL2018" {
+//                UserDefaults.standard.set(true, forKey: "AUTHOR_HAS_AUTHENTICATED")
+//                self?.navigateToAuthoringTool()
+//            }
+//        }
+//        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//        alertController.addAction(confirmAction)
+//        present(alertController, animated: true, completion: nil)
+//    }
     
     private func navigateToAuthoringTool() {
         let sentenceVC = storyboard?.instantiateViewController(withIdentifier: "AuthoringMetadataViewController") as! AuthoringMetadataViewController

@@ -129,7 +129,14 @@ final class StudentModeViewController: UIViewController {
         instructorPlayStopButton.isEnabled = true
         
         pauseResumeButton.isHidden = true
-        showRecordButton.isHidden = false
+        if Auth.auth().currentUser == nil{
+            showRecordButton.isHidden = true
+            recordButton.isHidden = true
+        }else{
+            showRecordButton.isHidden = false
+            recordButton.isHidden = false
+        }
+            
         studentAudioPlaybackButton.isHidden = true
     }
     
@@ -343,7 +350,6 @@ final class StudentModeViewController: UIViewController {
             }
             
             uploadTask.observe(.success) { snapshot in
-                print("successful")
                 do{
                     
                     let docURL = self.getDocumentsDirectory()
@@ -357,17 +363,7 @@ final class StudentModeViewController: UIViewController {
                     }
                     let destinationPath = self.getDocumentsDirectory().appendingPathComponent(self.lesson!.title).appendingPathComponent("\(String(timestamp)).m4a")
                     try FileManager.default.moveItem(at: self.studentRecordingFileName, to: destinationPath)
-                    if FileManager.default.fileExists(atPath: self.studentRecordingFileName!.path) {
-                        print("exists original")
-                    }else{
-                        print("not exists original")
-                    }
                     self.studentRecordingFileName = destinationPath
-                    if FileManager.default.fileExists(atPath: destinationPath.path) {
-                        print("exists new")
-                    }else{
-                        print("not exists new")
-                    }
                 } catch{
                     print("ERROR - \(error)")
                 }
