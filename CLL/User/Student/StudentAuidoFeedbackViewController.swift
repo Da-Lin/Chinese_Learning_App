@@ -24,11 +24,13 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
     var feedbackButton: UIBarButtonItem!
     var feedbackTime = ""
     var audioTimeStamp = ""
-    var feedbackFileName: URL!
+    var feedbackFileName: String!
+    var feedbackFileNameURL: URL!
     var uid = Auth.auth().currentUser!.uid
     var feedbackTimes = [String]()
     var feedbackURLs = [String]()
     var feedbackFileNames = [String]()
+    private var timer = Timer()
     
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
@@ -42,6 +44,14 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
         if isTeacher{
             setUpFeedbackButton()
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        timer.invalidate()
+        feedbackAudioPlayer = nil
+        audioPlayer = nil
     }
     
     func getFeedbackAudio(){
@@ -74,7 +84,7 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
             return
         }
         for i in 0...feedbackTimes.count - 1{
-            let dataPath = URL(string: feedbackFileNames[i])!
+            let dataPath = getDocumentsDirectory().appendingPathComponent(feedbackFileNames[i])
             if FileManager.default.fileExists(atPath: dataPath.relativePath) {
                 //existsFlags.append(true)
             }else{
@@ -109,7 +119,7 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
             audioPlayer = try AVAudioPlayer(contentsOf: dataPath)
             audioPlayer.delegate = self
             audioTimeSlider.maximumValue = Float(audioPlayer.duration)
-            _ = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
         }catch{
             print(error)
         }
@@ -150,13 +160,13 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
         let metadata = StorageMetadata()
         metadata.contentType = "audio/mp4"
         
-        let uploadTask = userAudioRef.putFile(from: feedbackFileName, metadata: metadata)
+        let uploadTask = userAudioRef.putFile(from: feedbackFileNameURL, metadata: metadata)
         
         uploadTask.observe(.success) { snapshot in
             
             self.feedbackURLs.append(url)
             self.feedbackTimes.append(self.feedbackTime)
-            self.feedbackFileNames.append(self.feedbackFileName.absoluteString)
+            self.feedbackFileNames.append(self.feedbackFileName)
             self.feedbackTableView.reloadData()
             self.db.collection("audios").document(self.studentId).collection(self.lessonTitle).document(self.audioTimeStamp).updateData(["feedbackURLs":self.feedbackURLs,"feedbackTimes":self.feedbackTimes, "feedbackFileNames": self.feedbackFileNames]) { (error) in
                 if error != nil {
@@ -199,8 +209,8 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
     func startRecording(){
         if self.audioRecorder == nil{
             let timestamp = NSDate().timeIntervalSince1970
-            let filename = self.studentId + "_" + self.lessonTitle + "_" + String(timestamp)
-            feedbackFileName = self.getDocumentsDirectory().appendingPathComponent("\(filename).m4a")
+            feedbackFileName = "\(timestamp).m4a"
+            feedbackFileNameURL = self.getDocumentsDirectory().appendingPathComponent(feedbackFileName)
             let settings = [
                 AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
                 AVSampleRateKey: 12000,
@@ -208,7 +218,7 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
                 AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
             ]
             do {
-                self.audioRecorder = try AVAudioRecorder(url: feedbackFileName, settings: settings)
+                self.audioRecorder = try AVAudioRecorder(url: feedbackFileNameURL, settings: settings)
                 self.audioRecorder.delegate = self
                 self.audioRecorder.record()
                 feedbackButton.title = "Stop"
@@ -313,9 +323,10 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
 extension StudentAudioFeedbackViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         do{
-            let path = URL(string: feedbackFileNames[indexPath.row])!
+            let path = getDocumentsDirectory().appendingPathComponent(feedbackFileNames[indexPath.row])
             feedbackAudioPlayer = try AVAudioPlayer(contentsOf: path)
             feedbackAudioPlayer.delegate = self
+            feedbackAudioPlayer.prepareToPlay()
             feedbackAudioPlayer.play()
         }catch{
             print(error)

@@ -13,7 +13,6 @@ class StudentAudioRecordsViewController: UIViewController {
     let db = Firestore.firestore()
     var isTeacher = false
     
-    var audioPlayer: AVAudioPlayer!
     var submitted = false;
     
     public var audioURLs = [String]()
@@ -138,8 +137,7 @@ class StudentAudioRecordsViewController: UIViewController {
                 let url = audioURLs[i]
                 let storageRef = Storage.storage().reference()
                 let userAudioRef = storageRef.child(url)
-                let localURL = self.getDocumentsDirectory().appendingPathComponent(lessonTitle).appendingPathComponent(String(timeStamps[i]) + ".mp4")
-                let downloadTask = userAudioRef.write(toFile: localURL) { url, error in
+                let downloadTask = userAudioRef.write(toFile: dataPath) { url, error in
                     if let error = error {
                         // Uh-oh, an error occurred!
                         print(error)

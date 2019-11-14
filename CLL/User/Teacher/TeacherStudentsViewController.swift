@@ -9,6 +9,7 @@ class TeacherStudentsViewController: UIViewController {
     let db = Firestore.firestore()
     var studentIds = [String]()
     var studentNames = [String]()
+    var studentIdToNames = [String : String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,9 +37,8 @@ class TeacherStudentsViewController: UIViewController {
     
     func setStudentNames(){
         let size = studentIds.count
-        var i = 0
         for studentId in studentIds{
-            i += 1
+            print(studentId)
             let usersRef = db.collection("users").document(studentId)
             usersRef.getDocument { (document, error) in
                 if let document = document, document.exists {
@@ -50,8 +50,12 @@ class TeacherStudentsViewController: UIViewController {
                     if let lastNameCloud = data["lastname"] as? String{
                         lastName = lastNameCloud
                     }
-                    self.studentNames.append("\(firstName) \(lastName)")
-                    if i == size{
+                    let studentName = "\(firstName) \(lastName)"
+                    self.studentIdToNames[studentId] = studentName
+                    if self.studentIdToNames.count == size{
+                        for studentId in self.studentIds{
+                            self.studentNames.append(self.studentIdToNames[studentId] ?? "Student Not Found")
+                        }
                         self.studentsTableView.reloadData()
                     }
                 } else {

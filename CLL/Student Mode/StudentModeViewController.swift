@@ -75,6 +75,7 @@ final class StudentModeViewController: UIViewController {
         speedStepper.minimumValue = 0.5
         speedStepper.maximumValue = 2.0
         speedStepper.stepValue = 0.1
+        speedStepper.value = 1
         speedLabel.text = String(format: "Speed: %.2f", speakingSpeed)
     }
     
