@@ -106,10 +106,21 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
     
     func setupAudioRecorder(){
         recordingSession = AVAudioSession.sharedInstance()
-        AVAudioSession.sharedInstance().requestRecordPermission{ (hasPermission) in
-            if hasPermission{
-                
+        
+        do {
+            try recordingSession.setCategory(.playAndRecord, mode: .spokenAudio, options: [.defaultToSpeaker])
+            try recordingSession.overrideOutputAudioPort(AVAudioSession.PortOverride.none)
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission() { allowed in
+                DispatchQueue.main.async {
+                    if !allowed {
+                        print("Failed to grant microphone recording permission!")
+                    }
+                }
             }
+        } catch {
+            print(error)
+            print("Failed to configure audio recording session!")
         }
     }
     
