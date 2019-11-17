@@ -252,9 +252,15 @@ final class StudentModeViewController: UIViewController {
         if case .paragraph(let paragraphNumber) = paragraphPlaybackStatus {
             if paragraphNumber + 1 < lesson!.transcriptMetadata.count {
                 if indexOfCurrentSpokenCharacter == IndexPath(row: 0, section: paragraphNumber + 1) {
-                    audioPlayer.stop()
-                    audioPlayerStopped()
-                    return
+                    if audioPlayer != nil{
+                        audioPlayer.stop()
+                        audioPlayerStopped()
+                        return
+                    }
+                    if audioRecorder != nil{
+                        invalidateTimer()
+                        return
+                    }
                 }
             }
         }
@@ -347,7 +353,6 @@ final class StudentModeViewController: UIViewController {
                     / Double(snapshot.progress!.totalUnitCount)
                 let percentage = String(format: "%.0f", percentComplete)
                 self.alert.message = "Uploading file: \(percentage)%"
-                print(percentComplete)
             }
             
             uploadTask.observe(.success) { snapshot in
@@ -550,6 +555,25 @@ final class StudentModeViewController: UIViewController {
     
     // MARK: - Helpers
     
+    @objc private func recordIndividualParagraph(sender: UIButton) {
+        
+        // Don't allow paragraph record while a recording is in progress.
+        guard !isRecording else { return }
+        
+        let paragraphToPlay = sender.tag
+        
+        if isPlaying {
+            audioPlayer.stop()
+            audioPlayerStopped()
+        }
+        
+        let startTime = lesson!.transcriptMetadata[paragraphToPlay].first?.startTime
+        paragraphPlaybackStatus = .paragraph(paragraphToPlay)
+        timeElapsedIntoPlayback = startTime ?? 0
+        recordButtonTapped(sender)
+        print("Playing paragraph \(sender.tag)")
+    }
+    
     private func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
@@ -600,6 +624,13 @@ extension StudentModeViewController: UICollectionViewDelegate {
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? SectionHeader {
             sectionHeader.playButton.tag = indexPath.section
             sectionHeader.playButton.addTarget(self, action: #selector(playIndividualParagraph(sender:)), for: .touchUpInside)
+            if Auth.auth().currentUser != nil{
+                sectionHeader.recordButton.tag = indexPath.section
+                sectionHeader.recordButton.addTarget(self, action: #selector(recordIndividualParagraph(sender:)), for: .touchUpInside)
+            }else{
+                sectionHeader.recordButton.isHidden = true
+            }
+            
             return sectionHeader
         }
         return UICollectionReusableView()
