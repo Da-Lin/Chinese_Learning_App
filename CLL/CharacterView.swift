@@ -11,13 +11,13 @@ enum ToneType: Int {
     func color() -> UIColor {
         switch self {
         case .first:
-            return .yellow
-        case .second:
-            return .red
-        case .third:
             return .green
+        case .second:
+            return .yellow
+        case .third:
+            return .blue
         case .fourth:
-            return .cyan
+            return .red
         case .fifth:
             return .white
         }
@@ -183,7 +183,7 @@ final class CharacterView: UICollectionViewCell {
            ])
                
         pinyin.text = "中".transformToPinYin()
-        pinyin.font = .regularFont(ofSize: 20)
+        pinyin.font = .regularFont(ofSize: 15)
 
         pinyin.textAlignment = .center
     

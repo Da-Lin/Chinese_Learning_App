@@ -35,6 +35,8 @@
 		C3FF6B53216AF8AB0060F333 /* LessonSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FF6B52216AF8AB0060F333 /* LessonSelectionViewController.swift */; };
 		FB20B373236E647200DD6279 /* TeacherStudentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB20B372236E647200DD6279 /* TeacherStudentsViewController.swift */; };
 		FB20B375236E7AFD00DD6279 /* StudentAuidoFeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB20B374236E7AFD00DD6279 /* StudentAuidoFeedbackViewController.swift */; };
+		FB40FE84238761BC005038B1 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40FE83238761BC005038B1 /* TutorialViewController.swift */; };
+		FB40FE8623876D91005038B1 /* NavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40FE8523876D91005038B1 /* NavViewController.swift */; };
 		FB41F5F423620E09004E5FD8 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5F323620E09004E5FD8 /* SignUpViewController.swift */; };
 		FB41F5F623620E13004E5FD8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5F523620E13004E5FD8 /* LoginViewController.swift */; };
 		FB41F5F823620E1F004E5FD8 /* LoginHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB41F5F723620E1F004E5FD8 /* LoginHomeViewController.swift */; };
@@ -82,6 +84,8 @@
 		F4920096E6E0159FCE554723 /* Pods-CLL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CLL.release.xcconfig"; path = "Pods/Target Support Files/Pods-CLL/Pods-CLL.release.xcconfig"; sourceTree = "<group>"; };
 		FB20B372236E647200DD6279 /* TeacherStudentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherStudentsViewController.swift; sourceTree = "<group>"; };
 		FB20B374236E7AFD00DD6279 /* StudentAuidoFeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentAuidoFeedbackViewController.swift; sourceTree = "<group>"; };
+		FB40FE83238761BC005038B1 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		FB40FE8523876D91005038B1 /* NavViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavViewController.swift; sourceTree = "<group>"; };
 		FB41F5F323620E09004E5FD8 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		FB41F5F523620E13004E5FD8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FB41F5F723620E1F004E5FD8 /* LoginHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHomeViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +147,7 @@
 				C3FD029A217634D7000177EE /* CLL.entitlements */,
 				C30FF5D1210A717600E2766D /* AppDelegate.swift */,
 				C30FF5D3210A717600E2766D /* HomeViewController.swift */,
+				FB40FE8523876D91005038B1 /* NavViewController.swift */,
 				FB41F602236284B8004E5FD8 /* Media */,
 				FB41F5F223620DED004E5FD8 /* Authentication */,
 				FB41F5F923621153004E5FD8 /* User */,
@@ -238,6 +243,7 @@
 		FB41F5F923621153004E5FD8 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				FB40FE83238761BC005038B1 /* TutorialViewController.swift */,
 				FB41F609236389AF004E5FD8 /* Student */,
 				FB20B371236E629100DD6279 /* Teacher */,
 			);
@@ -448,8 +454,10 @@
 				FB41F60623629BE6004E5FD8 /* TeacherHomeViewController.swift in Sources */,
 				FB41F60B236389D1004E5FD8 /* StudentAudioRecordsViewController.swift in Sources */,
 				C3FF6B53216AF8AB0060F333 /* LessonSelectionViewController.swift in Sources */,
+				FB40FE84238761BC005038B1 /* TutorialViewController.swift in Sources */,
 				C33F0EA8214593DB00422C06 /* UIFont+Extension.swift in Sources */,
 				C33F0EAE2146F49300422C06 /* SentenceModeViewController.swift in Sources */,
+				FB40FE8623876D91005038B1 /* NavViewController.swift in Sources */,
 				FB41F5F823620E1F004E5FD8 /* LoginHomeViewController.swift in Sources */,
 				FB41F5F423620E09004E5FD8 /* SignUpViewController.swift in Sources */,
 				C33F0EA9214593DB00422C06 /* UIViewController+Extension.swift in Sources */,
@@ -612,7 +620,7 @@
 				CODE_SIGN_ENTITLEMENTS = CLL/CLL.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = B26JM5YT22;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -625,7 +633,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.4;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ningliu.cll;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -642,7 +650,7 @@
 				CODE_SIGN_ENTITLEMENTS = CLL/CLL.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = B26JM5YT22;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -654,7 +662,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.4;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ningliu.cll;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

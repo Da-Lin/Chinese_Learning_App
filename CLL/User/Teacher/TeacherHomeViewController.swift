@@ -6,6 +6,7 @@ class TeacherHomeViewController: UIViewController {
 
     @IBOutlet weak var newLessonButton: FUIButton!
     @IBOutlet weak var viewStudentsButton: FUIButton!
+    @IBOutlet weak var tutorialButton: FUIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -19,7 +20,7 @@ class TeacherHomeViewController: UIViewController {
     }
     
     private func setupButtons() {
-        [viewStudentsButton, newLessonButton].forEach { button in
+        [viewStudentsButton, newLessonButton, tutorialButton].forEach { button in
             guard let button = button else { return }
             button.buttonColor = .white
             button.shadowColor = .darkGray
@@ -48,4 +49,11 @@ class TeacherHomeViewController: UIViewController {
         let sentenceVC = storyboard?.instantiateViewController(withIdentifier: "AuthoringMetadataViewController") as! AuthoringMetadataViewController
         navigationController?.pushViewController(sentenceVC, animated: true)
     }
+    
+    @IBAction func tutorialButtonTapped(_ sender: Any) {
+        let tutorialViewController = storyboard?.instantiateViewController(withIdentifier: Constants.Storyboard.tutorialViewController) as! TutorialViewController
+        tutorialViewController.link = "https://www.youtube.com/embed/c-gD_2X5RTk?playsinline=1"
+        navigationController?.pushViewController(tutorialViewController, animated: true)
+    }
+    
 }

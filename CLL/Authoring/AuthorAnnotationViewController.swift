@@ -130,7 +130,8 @@ class AuthorAnnotationViewController: UIViewController {
                                                   message: "Your lesson was successfully published. Tap to return to the home screen.",
                                                   preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] alert in
-                    self?.navigationController?.popToRootViewController(animated: true)
+                    let vc =  self?.navigationController?.viewControllers.filter({$0 is TeacherHomeViewController}).first
+                    self?.navigationController?.popToViewController(vc!, animated: true)
                 }
                 alertView.addAction(okAction)
                 self?.present(alertView, animated: true)

@@ -8,6 +8,7 @@ class StudentHomeViewController: UIViewController {
     @IBOutlet weak var lessonsButton: FUIButton!
     @IBOutlet weak var checkSavedLessonsButton: FUIButton!
     @IBOutlet weak var changeTeacherButton: FUIButton!
+    @IBOutlet weak var tutorialButton: FUIButton!
     
     let uid = Auth.auth().currentUser!.uid
     let db = Firestore.firestore()
@@ -41,6 +42,9 @@ class StudentHomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        let value =  UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+        UIViewController.attemptRotationToDeviceOrientation()
     }
     
     @IBAction func lessonButtonTapped(_ sender: Any) {
@@ -57,7 +61,7 @@ class StudentHomeViewController: UIViewController {
     }
     
     private func setupButtons() {
-        [lessonsButton, checkSavedLessonsButton, changeTeacherButton].forEach { button in
+        [lessonsButton, checkSavedLessonsButton, changeTeacherButton, tutorialButton].forEach { button in
             guard let button = button else { return }
             button.buttonColor = .white
             button.shadowColor = .darkGray
@@ -175,6 +179,20 @@ class StudentHomeViewController: UIViewController {
                 self.present(alertController, animated: true, completion: nil)
             }
         }
+    }
+    
+    @IBAction func tutorialButtonTapped(_ sender: Any) {
+        let tutorialViewController = storyboard?.instantiateViewController(withIdentifier: Constants.Storyboard.tutorialViewController) as! TutorialViewController
+        tutorialViewController.link = "https://www.youtube.com/embed/-fWx_w-csy4?playsinline=1"
+        navigationController?.pushViewController(tutorialViewController, animated: true)
+    }
+
+    override var shouldAutorotate: Bool {
+        return true
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
     }
     
 }
