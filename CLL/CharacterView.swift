@@ -116,6 +116,7 @@ struct IndividualCharacterViewMetadata {
     let isStressed: Bool
     let isLong: Bool
     let toneNumber: Int
+    let pinyin: String
     let character: String
 }
 
@@ -206,7 +207,7 @@ final class CharacterView: UICollectionViewCell {
     
     private func refreshLabels() {
         characterLabel.text = metadata?.character
-        pinyin.text = metadata?.character.transformToPinYin()
+        pinyin.text = metadata?.pinyin
         toneBubble.setTone(tone: ToneType(rawValue: metadata!.toneNumber), metadata!.isStressed)
 
         if metadata!.toneNumber == 0 {

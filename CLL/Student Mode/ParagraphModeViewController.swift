@@ -295,7 +295,7 @@ extension ParagraphModeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CharacterView
         if let sentence = sentence {
-            cell.metadata = IndividualCharacterViewMetadata(isStressed: false, isLong: false, toneNumber: sentence.toneNumber(), character: sentence)
+            cell.metadata = IndividualCharacterViewMetadata(isStressed: false, isLong: false, toneNumber: sentence.toneNumber(), pinyin: sentence.transformToPinYin(), character: sentence)
             if (NSLocationInRange(indexPath.row, currentlySpokenCharacterRange)) {
                 cell.backgroundColor = .yellow
             } else {

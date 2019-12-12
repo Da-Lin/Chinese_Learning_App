@@ -66,7 +66,7 @@ class AuthorAnnotationViewController: UIViewController {
     
         for paragraph in metadata!.transcript {
             let paragraphMetadata: ParagraphMetadata = paragraph.map { String($0) }.map { character in
-                return IndividualCharacterViewMetadata(isStressed: false, isLong: false, toneNumber: character.toneNumber(), character: character)
+                return IndividualCharacterViewMetadata(isStressed: false, isLong: false, toneNumber: character.toneNumber(), pinyin: character.transformToPinYin(), character: character)
             }
             characterMetadata.append(paragraphMetadata)
         }
@@ -96,7 +96,7 @@ class AuthorAnnotationViewController: UIViewController {
             
             var newParagraphMetadata = LessonParagraphMetadata()
             for (rowIdx, character) in paragraphMetadata.enumerated() {
-                let charMetadata = CharacterMetadata(character: character.character, startTime: selectedIndexTimestamps[IndexPath(row: rowIdx, section: sectionIdx)] ?? 0, isStressed: character.isStressed, isLong: character.isLong, toneNumber: character.toneNumber)
+                let charMetadata = CharacterMetadata(character: character.character, startTime: selectedIndexTimestamps[IndexPath(row: rowIdx, section: sectionIdx)] ?? 0, isStressed: character.isStressed, isLong: character.isLong, toneNumber: character.toneNumber, pinyin: character.pinyin)
                 newParagraphMetadata.append(charMetadata)
             }
             transcriptMetadata.append(newParagraphMetadata)
@@ -352,7 +352,6 @@ extension AuthorAnnotationViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CharacterView
         cell.metadata = characterMetadata[indexPath.section][indexPath.row]
-        
         if selectedIndexTimestamps.keys.contains(indexPath) {
             cell.backgroundColor = .salmon
         } else {
@@ -397,19 +396,25 @@ extension AuthorAnnotationViewController: UIPopoverPresentationControllerDelegat
 extension AuthorAnnotationViewController: CharacterPopoverViewControllerObserver {
     func characterMetadataToneEdited(forIndexPath indexPath: IndexPath, toTone tone: Int) {
         let previousMetadata = characterMetadata[indexPath.section][indexPath.row]
-        characterMetadata[indexPath.section][indexPath.row] = IndividualCharacterViewMetadata(isStressed: previousMetadata.isStressed, isLong: previousMetadata.isLong, toneNumber: tone, character: previousMetadata.character)
+        characterMetadata[indexPath.section][indexPath.row] = IndividualCharacterViewMetadata(isStressed: previousMetadata.isStressed, isLong: previousMetadata.isLong, toneNumber: tone, pinyin: previousMetadata.pinyin, character: previousMetadata.character)
+        collectionView.reloadItems(at: [indexPath])
+    }
+    
+    func characterMetadataPinyinEdited(forIndexPath indexPath: IndexPath, _ toPinyin: String) {
+        let previousMetadata = characterMetadata[indexPath.section][indexPath.row]
+        characterMetadata[indexPath.section][indexPath.row] = IndividualCharacterViewMetadata(isStressed: previousMetadata.isStressed, isLong: previousMetadata.isLong, toneNumber: previousMetadata.toneNumber, pinyin: toPinyin, character: previousMetadata.character)
         collectionView.reloadItems(at: [indexPath])
     }
     
     func characterMetadataStressEdited(forIndexPath indexPath: IndexPath, _ isStressed: Bool) {
         let previousMetadata = characterMetadata[indexPath.section][indexPath.row]
-        characterMetadata[indexPath.section][indexPath.row] = IndividualCharacterViewMetadata(isStressed: isStressed, isLong: previousMetadata.isLong, toneNumber: previousMetadata.toneNumber, character: previousMetadata.character)
+        characterMetadata[indexPath.section][indexPath.row] = IndividualCharacterViewMetadata(isStressed: isStressed, isLong: previousMetadata.isLong, toneNumber: previousMetadata.toneNumber, pinyin: previousMetadata.pinyin, character: previousMetadata.character)
         collectionView.reloadItems(at: [indexPath])
     }
     
     func characterMetadataIsLongEdited(forIndexPath indexPath: IndexPath, _ isLong: Bool) {
         let previousMetadata = characterMetadata[indexPath.section][indexPath.row]
-        characterMetadata[indexPath.section][indexPath.row] = IndividualCharacterViewMetadata(isStressed: previousMetadata.isStressed, isLong: isLong, toneNumber: previousMetadata.toneNumber, character: previousMetadata.character)
+        characterMetadata[indexPath.section][indexPath.row] = IndividualCharacterViewMetadata(isStressed: previousMetadata.isStressed, isLong: isLong, toneNumber: previousMetadata.toneNumber, pinyin: previousMetadata.pinyin, character: previousMetadata.character)
         collectionView.reloadItems(at: [indexPath])
     }
 }

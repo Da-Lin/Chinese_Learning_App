@@ -649,7 +649,7 @@ extension StudentModeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CharacterView
         let metadata = lesson!.transcriptMetadata[indexPath.section][indexPath.row]
-        let individualMetadata = IndividualCharacterViewMetadata(isStressed: metadata.isStressed, isLong: metadata.isLong, toneNumber: metadata.toneNumber, character: metadata.character)
+        let individualMetadata = IndividualCharacterViewMetadata(isStressed: metadata.isStressed, isLong: metadata.isLong, toneNumber: metadata.toneNumber, pinyin: metadata.pinyin, character: metadata.character)
         cell.metadata = individualMetadata
         
         if indexOfCurrentSpokenCharacter == nil {

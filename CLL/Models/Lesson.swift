@@ -7,6 +7,7 @@ struct CharacterMetadata: Codable {
     let isStressed: Bool
     let isLong: Bool
     let toneNumber: Int
+    let pinyin: String
 }
 
 typealias LessonParagraphMetadata = [CharacterMetadata]

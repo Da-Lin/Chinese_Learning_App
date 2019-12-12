@@ -4,6 +4,7 @@ protocol CharacterPopoverViewControllerObserver: class {
     func characterMetadataToneEdited(forIndexPath indexPath: IndexPath, toTone tone: Int)
     func characterMetadataStressEdited(forIndexPath indexPath: IndexPath, _ isStressed: Bool)
     func characterMetadataIsLongEdited(forIndexPath indexPath: IndexPath, _ isLong: Bool)
+    func characterMetadataPinyinEdited(forIndexPath indexPath: IndexPath, _ toPinyin: String)
 }
 
 class CharacterPopoverViewController: UIViewController {
@@ -21,7 +22,8 @@ class CharacterPopoverViewController: UIViewController {
     @IBOutlet private weak var isStressedSwitch: UISwitch!
     @IBOutlet private weak var toneSegmentedControl: UISegmentedControl!
     @IBOutlet private weak var characterLabel: UILabel!
-
+    @IBOutlet weak var pinyinText: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         isStressedSwitch.addTarget(self, action: #selector(stressedSwitchChanged(mySwitch:)), for: .valueChanged)
@@ -50,7 +52,13 @@ class CharacterPopoverViewController: UIViewController {
         isLongSwitch.isOn = metadata!.isLong
         isStressedSwitch.isOn = metadata!.isStressed
         characterLabel.text = metadata!.character
+        pinyinText.text = metadata!.pinyin
         toneSegmentedControl.selectedSegmentIndex = metadata!.toneNumber - 1
+    }
+    @IBAction func pinyinTextChanged(_ sender: Any) {
+        guard let indexPath = indexPath else { return }
+        //print(pinyinText.text!)
+        observer?.characterMetadataPinyinEdited(forIndexPath: indexPath, pinyinText.text!)
     }
     
 }
