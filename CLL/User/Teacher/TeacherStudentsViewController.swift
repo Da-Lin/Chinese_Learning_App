@@ -10,13 +10,41 @@ class TeacherStudentsViewController: UIViewController {
     var studentIds = [String]()
     var studentNames = [String]()
     var studentIdToNames = [String : String]()
+    var studentIdToUpdated = [String : Bool]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = ""
-        getStudents()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        studentIds = [String]()
+        studentNames = [String]()
+        studentIdToUpdated = [String : Bool]()
+        getStudents()
+    }
+    
+    func getStudentMadeUpdate(_ studentId: String){
+        let usersRef = db.collection("audios").document(studentId)
+        usersRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()!
+                if let updated = data["updated"] as? Bool{
+                    self.studentIdToUpdated[studentId] = updated
+                    if updated{
+                        self.studentsTableView.reloadData()
+                    }
+                }else{
+                    self.studentIdToUpdated[studentId] = false
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
     
     func getStudents(){
@@ -38,7 +66,7 @@ class TeacherStudentsViewController: UIViewController {
     func setStudentNames(){
         let size = studentIds.count
         for studentId in studentIds{
-            print(studentId)
+            getStudentMadeUpdate(studentId)
             let usersRef = db.collection("users").document(studentId)
             usersRef.getDocument { (document, error) in
                 if let document = document, document.exists {
@@ -80,6 +108,11 @@ extension TeacherStudentsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "StudentCell", for: indexPath) as UITableViewCell
         cell.textLabel?.text = studentNames[indexPath.row]
+        if studentIdToUpdated[studentIds[indexPath.row]] ?? false{
+            cell.backgroundColor = UIColor.red
+        }else{
+            cell.backgroundColor = UIColor.white
+        }
         return cell
     }
     

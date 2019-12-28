@@ -30,6 +30,7 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
     var feedbackTimes = [String]()
     var feedbackURLs = [String]()
     var feedbackFileNames = [String]()
+    var feedbackUpdateds = [Bool]()
     private var timer = Timer()
     
     var recordingSession: AVAudioSession!
@@ -52,6 +53,49 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
         timer.invalidate()
         feedbackAudioPlayer = nil
         audioPlayer = nil
+        
+        if !isTeacher { db.collection("audios").document(self.studentId).collection(self.lessonTitle).document(self.audioTimeStamp).updateData(["feedbackUpdateds": self.feedbackUpdateds]) { (error) in
+                if error != nil {
+                    // Show error message
+                    print("Error saving user data")
+                }
+            }
+            
+            if !feedbackUpdateds.contains(true){
+                db.collection("audios").document(self.studentId).collection(self.lessonTitle).document(self.audioTimeStamp).updateData(["feedbackUpdated": false]) { (error) in
+                    if error != nil {
+                        // Show error message
+                        print("Error saving user data")
+                    }
+                }
+                
+                //lessons that have updated feedback
+                let db = Firestore.firestore()
+                let usersRef = db.collection("users").document(self.studentId)
+                usersRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()!
+                        var updatedFeedbackLessons:[String]
+                        if data["updatedFeedbackLessons"] != nil{
+                            updatedFeedbackLessons = data["updatedFeedbackLessons"] as! [String]
+                        }else{
+                            updatedFeedbackLessons = [String]()
+                        }
+                        if let index = updatedFeedbackLessons.firstIndex(of: self.lessonTitle){
+                            updatedFeedbackLessons.remove(at: index)
+                            usersRef.updateData(["updatedFeedbackLessons": updatedFeedbackLessons]) { (error) in
+                                if error != nil {
+                                    // Show error message
+                                    print("Error saving user data")
+                                }
+                            }
+                        }
+                    } else {
+                        print("Document does not exist")
+                    }
+                }
+            }
+        }
     }
     
     func getFeedbackAudio(){
@@ -69,6 +113,9 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
                 }
                 if let feedbackFileNamesCloud = data["feedbackFileNames"] as? [String]{
                     self.feedbackFileNames = feedbackFileNamesCloud
+                }
+                if let feedbackupdatedsCloud = data["feedbackUpdateds"] as? [Bool]{
+                    self.feedbackUpdateds = feedbackupdatedsCloud
                 }
                 self.cashAudioFiles()
                 self.feedbackTableView.reloadData()
@@ -178,8 +225,42 @@ class StudentAudioFeedbackViewController: UIViewController,AVAudioPlayerDelegate
             self.feedbackURLs.append(url)
             self.feedbackTimes.append(self.feedbackTime)
             self.feedbackFileNames.append(self.feedbackFileName)
+            self.feedbackUpdateds.append(true)
             self.feedbackTableView.reloadData()
-            self.db.collection("audios").document(self.studentId).collection(self.lessonTitle).document(self.audioTimeStamp).updateData(["feedbackURLs":self.feedbackURLs,"feedbackTimes":self.feedbackTimes, "feedbackFileNames": self.feedbackFileNames]) { (error) in
+            
+            //lessons that have updated feedback
+            let db = Firestore.firestore()
+            let usersRef = db.collection("users").document(self.studentId)
+            usersRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()!
+                    var updatedFeedbackLessons:[String]
+                    if data["updatedFeedbackLessons"] != nil{
+                        updatedFeedbackLessons = data["updatedFeedbackLessons"] as! [String]
+                    }else{
+                        updatedFeedbackLessons = [String]()
+                    }
+                    if !updatedFeedbackLessons.contains(self.lessonTitle){
+                        updatedFeedbackLessons.append(self.lessonTitle)
+                        usersRef.updateData(["updatedFeedbackLessons": updatedFeedbackLessons]) { (error) in
+                            if error != nil {
+                                // Show error message
+                                print("Error saving user data")
+                            }
+                        }
+                    }
+                } else {
+                    print("Document does not exist")
+                }
+            }
+            
+            self.db.collection("audios").document(self.studentId).collection(self.lessonTitle).document("feedbackUpdates").setData(["updated": true]) { (error) in
+                if error != nil {
+                    // Show error message
+                    print("Error saving user data")
+                }
+            }
+            self.db.collection("audios").document(self.studentId).collection(self.lessonTitle).document(self.audioTimeStamp).updateData(["feedbackURLs":self.feedbackURLs,"feedbackTimes":self.feedbackTimes, "feedbackFileNames": self.feedbackFileNames, "feedbackUpdateds": self.feedbackUpdateds, "feedbackUpdated": true]) { (error) in
                 if error != nil {
                     // Show error message
                     print("Error saving user data")
@@ -339,6 +420,10 @@ extension StudentAudioFeedbackViewController: UITableViewDelegate {
             feedbackAudioPlayer.delegate = self
             feedbackAudioPlayer.prepareToPlay()
             feedbackAudioPlayer.play()
+            if !isTeacher && feedbackUpdateds[indexPath.row]{
+                feedbackUpdateds[indexPath.row] = false
+                feedbackTableView.reloadData()
+            }
         }catch{
             print(error)
         }
@@ -349,6 +434,11 @@ extension StudentAudioFeedbackViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedbackAudioCell", for: indexPath) as UITableViewCell
         cell.textLabel?.text = feedbackTimes[indexPath.row]
+        if !isTeacher && feedbackUpdateds[indexPath.row]{
+            cell.backgroundColor = UIColor.red
+        } else{
+            cell.backgroundColor = UIColor.white
+        }
         return cell
     }
     
@@ -391,8 +481,8 @@ extension StudentAudioFeedbackViewController: UITableViewDataSource {
             feedbackFileNames.remove(at: index)
             feedbackTimes.remove(at: index)
             feedbackURLs.remove(at: index)
-            
-            db.collection("audios").document(self.studentId).collection(self.lessonTitle).document(self.audioTimeStamp).updateData(["feedbackURLs":self.feedbackURLs,"feedbackTimes":self.feedbackTimes, "feedbackFileNames": self.feedbackFileNames]) { (error) in
+            feedbackUpdateds.remove(at: index)
+            db.collection("audios").document(self.studentId).collection(self.lessonTitle).document(self.audioTimeStamp).updateData(["feedbackURLs":self.feedbackURLs,"feedbackTimes":self.feedbackTimes, "feedbackFileNames": self.feedbackFileNames, "feedbackUpdateds": self.feedbackUpdateds]) { (error) in
                 if error != nil {
                     // Show error message
                     print("Error saving user data")

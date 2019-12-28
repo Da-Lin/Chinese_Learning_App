@@ -383,6 +383,8 @@ final class StudentModeViewController: UIViewController {
                 usersRef.getDocument { (document, error) in
                     if let document = document, document.exists {
                         let data = document.data()!
+                        
+                        //student lessons
                         var lessons:[String]
                         if data["lessons"] != nil{
                             lessons = data["lessons"] as! [String]
@@ -398,11 +400,42 @@ final class StudentModeViewController: UIViewController {
                                 }
                             }
                         }
+                        
+                        //student updated lessons
+                        var updatedLessons:[String]
+                        if data["updatedLessons"] != nil{
+                            updatedLessons = data["updatedLessons"] as! [String]
+                        }else{
+                            updatedLessons = [String]()
+                        }
+                        if !updatedLessons.contains(newLesson){
+                            updatedLessons.append(newLesson)
+                            usersRef.updateData(["updatedLessons": updatedLessons]) { (error) in
+                                if error != nil {
+                                    // Show error message
+                                    print("Error saving user data")
+                                }
+                            }
+                        }
                     } else {
                         print("Document does not exist")
                     }
                 }
-                db.collection("audios").document(uid).collection(newLesson).document(String(timestamp)).setData(["title":newLesson, "url": url]) { (error) in
+                db.collection("audios").document(uid).collection(newLesson).document(String(timestamp)).setData(["title":newLesson, "url": url, "updated": true]) { (error) in
+                    if error != nil {
+                        // Show error message
+                        print("Error saving user data")
+                    }
+                }
+                
+                db.collection("audios").document(uid).collection(newLesson).document("updates").setData(["updated": true]) { (error) in
+                    if error != nil {
+                        // Show error message
+                        print("Error saving user data")
+                    }
+                }
+                
+                db.collection("audios").document(uid).setData(["updated": true]) { (error) in
                     if error != nil {
                         // Show error message
                         print("Error saving user data")

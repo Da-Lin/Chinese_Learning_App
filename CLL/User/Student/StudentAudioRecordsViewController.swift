@@ -17,14 +17,40 @@ class StudentAudioRecordsViewController: UIViewController {
     
     public var audioURLs = [String]()
     public var timeStamps = [TimeInterval]()
+    var updateds = [Bool]()
+    var feedbackUpdateds = [Bool]()
     public var existsFlags = [Bool]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        getAuidos()
+
         if !isTeacher{
             initValue()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        audioURLs = [String]()
+        timeStamps = [TimeInterval]()
+        updateds = [Bool]()
+        feedbackUpdateds = [Bool]()
+        existsFlags = [Bool]()
+        getAuidos()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if !feedbackUpdateds.contains(true){
+            self.db.collection("audios").document(self.uid).collection(self.lessonTitle).document("feedbackUpdates").setData(["updated": false]) { (error) in
+                if error != nil {
+                    // Show error message
+                    print("Error saving user data")
+                }
+            }
         }
     }
     
@@ -112,10 +138,23 @@ class StudentAudioRecordsViewController: UIViewController {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
+                    if TimeInterval(document.documentID) == nil{
+                        continue
+                    }
                     self.timeStamps.append(TimeInterval(document.documentID)!)
                     let data = document.data()
                     let urlStr = data["url"] as! String
                     self.audioURLs.append(urlStr)
+                    if let updated = data["updated"] as? Bool{
+                        self.updateds.append(updated)
+                    }else{
+                        self.updateds.append(false)
+                    }
+                    if let updated = data["feedbackUpdated"] as? Bool{
+                        self.feedbackUpdateds.append(updated)
+                    }else{
+                        self.feedbackUpdateds.append(false)
+                    }
                     //print("\(document.documentID) => \(document.data())")
                 }
                 self.cashAudioFiles()
@@ -176,6 +215,63 @@ extension StudentAudioRecordsViewController: UITableViewDelegate {
             studentAudioFeedbackViewController.lessonTitle = lessonTitle
             studentAudioFeedbackViewController.dataPath = dataPath
             studentAudioFeedbackViewController.audioTimeStamp = String(timeStamps[indexPath.row])
+            if isTeacher && updateds[indexPath.row] {
+                updateds[indexPath.row] = false
+                recordsTableView.reloadData()
+                db.collection("audios").document(uid).collection(lessonTitle).document(String(timeStamps[indexPath.row])).updateData(["updated": false]) { (error) in
+                    if error != nil {
+                        // Show error message
+                        print("Error saving user data")
+                    }
+                }
+                
+                //if all records are reviewed
+                if !updateds.contains(true){
+                    
+                    //mark lesson as unupdated
+                    db.collection("audios").document(uid).collection(self.lessonTitle).document("updates").setData(["updated": false]) { (error) in
+                        if error != nil {
+                            // Show error message
+                            print("Error saving user data")
+                        }
+                    }
+                    
+                    //remove this lesson from students updated lessons array. If no lessons left, mark student as unupdated
+                    let usersRef = db.collection("users").document(uid)
+                    usersRef.getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            let data = document.data()!
+                            //student updated lessons
+                            var updatedLessons:[String]
+                            if data["updatedLessons"] != nil{
+                                updatedLessons = data["updatedLessons"] as! [String]
+                            }else{
+                                updatedLessons = [String]()
+                            }
+                            if let index = updatedLessons.firstIndex(of: self.lessonTitle){
+                                updatedLessons.remove(at: index)
+                                usersRef.updateData(["updatedLessons": updatedLessons]) { (error) in
+                                    if error != nil {
+                                        // Show error message
+                                        print("Error saving user data")
+                                    }
+                                }
+                                
+                                if updatedLessons.count == 0{
+                                    self.db.collection("audios").document(self.uid).setData(["updated": false]) { (error) in
+                                        if error != nil {
+                                            // Show error message
+                                            print("Error saving user data")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                
+                }
+            }
             self.navigationController?.pushViewController(studentAudioFeedbackViewController, animated: true)
         }
         
@@ -195,6 +291,19 @@ extension StudentAudioRecordsViewController: UITableViewDataSource {
         let timeString = formatter.string(from: time as Date)
         let cell = tableView.dequeueReusableCell(withIdentifier: "AudioCell", for: indexPath) as UITableViewCell
         cell.textLabel?.text = timeString
+        if isTeacher {
+            if updateds[indexPath.row]{
+                cell.backgroundColor = UIColor.red
+            }else{
+                cell.backgroundColor = UIColor.white
+            }
+        }else{
+            if feedbackUpdateds[indexPath.row]{
+                cell.backgroundColor = UIColor.red
+            }else{
+                cell.backgroundColor = UIColor.white
+            }
+        }
         return cell
     }
     
@@ -240,6 +349,8 @@ extension StudentAudioRecordsViewController: UITableViewDataSource {
             
             audioURLs.remove(at: index)
             timeStamps.remove(at: index)
+            updateds.remove(at: index)
+            feedbackUpdateds.remove(at: index)
             
             //if deleted all audios
             if timeStamps.count == 0{
