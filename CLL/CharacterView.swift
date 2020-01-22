@@ -11,9 +11,9 @@ enum ToneType: Int {
     func color() -> UIColor {
         switch self {
         case .first:
-            return .green
-        case .second:
             return .yellow
+        case .second:
+            return .green
         case .third:
             return .blue
         case .fourth:

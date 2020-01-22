@@ -129,16 +129,14 @@ class AuthoringMetadataViewController: UIViewController {
             if error != nil || isFinal {
                 self.audioEngine.stop()
                 inputNode.removeTap(onBus: 0)
-                
+                self.speechBtn.setTitle("Speech", for: .normal)
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
-                
-                self.speechBtn.isEnabled = true
             }
         })
         
         let recordingFormat = inputNode.outputFormat(forBus: 0)
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, when) in
+        inputNode.installTap(onBus: 0, bufferSize: 4096, format: recordingFormat) { (buffer, when) in
             self.recognitionRequest?.append(buffer)
         }
         
