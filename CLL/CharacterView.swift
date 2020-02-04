@@ -15,7 +15,7 @@ enum ToneType: Int {
         case .second:
             return .green
         case .third:
-            return .blue
+            return UIColor(red: 0/255, green: 233/255, blue: 249/255, alpha: 1.0)
         case .fourth:
             return .red
         case .fifth:

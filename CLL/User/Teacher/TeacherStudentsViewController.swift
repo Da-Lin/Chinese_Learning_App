@@ -24,6 +24,7 @@ class TeacherStudentsViewController: UIViewController {
         
         studentIds = [String]()
         studentNames = [String]()
+        studentIdToNames = [String : String]()
         studentIdToUpdated = [String : Bool]()
         getStudents()
     }
